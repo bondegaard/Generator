@@ -20,6 +20,10 @@ public class PlayerDataHandler implements Listener {
         Bukkit.getPluginManager().registerEvents(this, instance);
     }
 
+    public static void saveAll(boolean force) {
+        for (GPlayer gPlayer : players) {gPlayer.save(force);}
+    }
+
 
     public static List<GPlayer> getPlayers() {
         return players;
@@ -75,17 +79,18 @@ public class PlayerDataHandler implements Listener {
         if (gPlayer == null) return;
         gPlayer.save(true);
         players.remove(gPlayer);
+        Main.getInstance().getGeneratorHandler().removeActiveGenerator(event.getPlayer().getUniqueId().toString());
     }
 
-    public boolean hasPlayer(String uuid) {
+    public static boolean hasPlayer(String uuid) {
         return getGPlayer(uuid) != null;
     }
 
-    public boolean hasPlayer(UUID uuid) {
+    public static boolean hasPlayer(UUID uuid) {
         return getGPlayer(uuid.toString()) != null;
     }
 
-    public boolean hasPlayer(Player player) {
+    public static boolean hasPlayer(Player player) {
         return getGPlayer(player.getUniqueId().toString()) != null;
     }
 }

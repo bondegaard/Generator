@@ -16,10 +16,19 @@ import java.util.logging.Level;
 public class Lang {
     // Default Messages
     public static String PREFIX;
+    public static String PERMISSION_DENY;
     public static String ERROR;
     // Generator messages
     public static String GENS_MAX;
     public static String GENS_PLACE;
+    public static String GENS_UPGRADED_SUCCESS;
+    public static String GENS_UPGRADED_INVALID_FOUNDS;
+    public static String GENS_UPGRADED_MAX;
+    public static String GENS_UPGRADED_NO_UPGRADE;
+
+
+
+
     private final Main instance;
 
 
@@ -29,24 +38,27 @@ public class Lang {
     }
 
     private void loadLangConfig() {
-        boolean pathChanges = false;
 
         //Creates the unique data file if it doesn't exist
         File dataFile = new File("lang.yml");
         if (!dataFile.exists()) try {
             dataFile.createNewFile();
-        } catch (IOException ex) {
-        }
+        } catch (IOException ignored) {}
 
         FileConfiguration lang = YamlConfiguration.loadConfiguration(dataFile);
 
         // Default lang.yml
-        PREFIX = getString(lang, "prefix", "&8[&6&lGenerator&8] &f");
-        ERROR = getString(lang, "error-message", "Der skete en fejl.");
+        PREFIX = getString(lang, "prefix", "&8[&b&lGenerator&8] &f");
+        PERMISSION_DENY = getString(lang, "permission-denied", "&cDu har ikke adgang til dette!");
+        ERROR = getString(lang, "error-message", "Der skete en fejl: %ERROR%");
 
         // Generator messages
         GENS_MAX = getString(lang, "generator.max-placed-message", "Du kan ikke placere flere generators. (%PLACED%/%MAX%)");
         GENS_PLACE = getString(lang, "generator.place-message", "Du placerede en %TYPE% generator. (%PLACED%/%MAX%)");
+        GENS_UPGRADED_SUCCESS = getString(lang, "generator.upgrade-success-message", "Du har opgraderet din generator til %TYPE%");
+        GENS_UPGRADED_INVALID_FOUNDS = getString(lang, "generator.upgrade-invalid-founds", "Du mangler %NEEDED%$ for at upgrade din generator");
+        GENS_UPGRADED_MAX = getString(lang, "generator.upgrade-max", "Du kan ikke opgradere denne generator!");
+        GENS_UPGRADED_NO_UPGRADE = getString(lang, "generator.no-upgrade", "Denne generator kan ikke opgrades!");
 
         try {
             lang.save(dataFile);

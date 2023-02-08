@@ -41,10 +41,9 @@ public class GPlayer {
         File dataFile = new File(folder, player.getUniqueId() + ".yml");
         if (!dataFile.exists()) try {
             dataFile.createNewFile();
-        } catch (IOException ex) {
-        }
+        } catch (IOException ex) {}
 
-        //Loads the file as a bukkit config
+        // Loads the file as a bukkit config
         this.data = YamlConfiguration.loadConfiguration(dataFile);
         setDefaultValues(player, data);
         loadPlayerStats();
@@ -100,6 +99,7 @@ public class GPlayer {
     private void loadPlayerStats() {
         generators.clear();
         maxGens = data.getInt("max-gens");
+        // Load gens from player
         for (String key : data.getConfigurationSection("generators").getKeys(false)) {
             try {
                 ConfigurationSection gen = data.getConfigurationSection("generators." + key);
@@ -117,7 +117,15 @@ public class GPlayer {
                 data.set("generators." + key, null);
             }
         }
+        // Add gens as active gens
+        Main.getInstance().getGeneratorHandler().removeActiveGenerator(player.getUniqueId().toString());
+        for (Generator gen: generators) {Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);}
     }
+
+    public void removeGenerator(Generator generator) {
+        generators.remove(generator);
+    }
+
 
     public long getLastSave() {
         return lastSave;

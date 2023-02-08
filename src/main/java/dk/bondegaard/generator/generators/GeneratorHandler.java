@@ -5,6 +5,7 @@ import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.ItemUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -61,8 +62,10 @@ public class GeneratorHandler {
                     itemDrops.add(drop);
                 }
             }
+            double upgradePrice = generatorType.contains("upgrade-price") ? generatorType.getDouble("upgrade-price") : -1;
+
             // Save Generator Type
-            generatorTypes.add(new GeneratorType(key, generatorItem, itemDrops, nextGenerator));
+            generatorTypes.add(new GeneratorType(key, generatorItem, itemDrops, nextGenerator, upgradePrice));
         }
     }
 
@@ -87,14 +90,27 @@ public class GeneratorHandler {
     }
 
     public void removeActiveGenerator(String uuid) {
+        List<Generator> objectsToRemove = getActiveGenerator(uuid);
+        for (Generator generator : objectsToRemove) {
+            activeGenerators.remove(generator);
+        }
+    }
+
+    private List<Generator> getActiveGenerator(String uuid) {
         List<Generator> objectsToRemove = new ArrayList<>();
         for (Generator generator : activeGenerators) {
             if (!generator.getOwnerUUID().equals(uuid)) continue;
             objectsToRemove.add(generator);
         }
-        for (Generator generator : objectsToRemove) {
-            activeGenerators.remove(generator);
+        return objectsToRemove;
+    }
+
+    public Generator getActiveGenerator(Location location) {
+        for (Generator generator : activeGenerators) {
+            if (generator.getLocation().distance(location) < 0.51)
+                return generator;
         }
+        return null;
     }
 
 
@@ -114,6 +130,8 @@ public class GeneratorHandler {
             }
         }, 10L, 10L);
     }
+
+
 
     public List<Generator> getActiveGenerators() {
         return activeGenerators;

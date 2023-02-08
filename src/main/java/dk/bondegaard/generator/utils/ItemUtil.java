@@ -10,7 +10,6 @@ public class ItemUtil {
 
         ConfigurationSection section = config.getConfigurationSection(path);
 
-        //If the item is a custom skull
         String[] itemID = section.getString("type").split(":");
         try {
 
@@ -20,8 +19,8 @@ public class ItemUtil {
                     /* Data */ Short.parseShort(itemID[1])
             );
 
-            itemBuilder.name(section.getString("name"));
-            itemBuilder.addLore(section.getStringList("lore"));
+            itemBuilder.name(StringUtil.colorize(section.getString("name")));
+            itemBuilder.addLore(StringUtil.colorize(section.getStringList("lore")));
             itemBuilder.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
             if (section.getBoolean("glowing")) itemBuilder.makeGlowing();
 

@@ -12,68 +12,70 @@ max-gens: 20
 time-inbetween: 5000
 
 
-
 generators:
   # ############## #
   # Coal Generator #
   # ############## #
   coal:
     next-generator: 'iron'
+    upgrade-price: 500
     generator-item:
       type: "173:0"
-      name: "§b§lCoal §f§lGenerator"
+      name: "&b&lCoal &f&lGenerator"
       lore:
         - ""
-        - "§fHøjre-klik for"
-        - "§fat placere."
+        - "&fHøjre-klik for"
+        - "&fat placere."
     generator-drops:
       1:
         type: "263:0"
-        name: "§b§lCoal"
+        name: "&b&lCoal"
   # ############## #
   # Iron Generator #
   # ############## #
   iron:
     next-generator: 'gold'
+    upgrade-price: 5000
     generator-item:
       type: "42:0"
-      name: "§b§lIron §f§lGenerator"
+      name: "&b&lIron &f&lGenerator"
       lore:
         - ""
-        - "§fHøjre-klik for"
-        - "§fat placere."
+        - "&fHøjre-klik for"
+        - "&fat placere."
     generator-drops:
       1:
         type: "265:0"
-        name: "§b§lIron"
+        name: "&b&lIron"
   # ############## #
   # Gold Generator #
   # ############## #
   gold:
     next-generator: 'diamond'
+    upgrade-price: 10000
     generator-item:
       type: "41:0"
-      name: "§b§lGold §f§lGenerator"
+      name: "&b&lGold &f&lGenerator"
       lore:
         - ""
-        - "§fHøjre-klik for"
-        - "§fat placere."
+        - "&fHøjre-klik for"
+        - "&fat placere."
     generator-drops:
       1:
         type: "266:0"
-        name: "§b§lGold"
+        name: "&b&lGold"
   # ################# #
   # Diamond Generator #
   # ################# #
   diamond:
     generator-item:
       type: "57:0"
-      name: "§b§lDiamond §f§lGenerator"
+      name: "&b&lDiamond &f&lGenerator"
       lore:
         - ""
-        - "§fHøjre-klik for"
-        - "§fat placere."
+        - "&fHøjre-klik for"
+        - "&fat placere."
     generator-drops:
       1:
         type: "264:0"
-        name: "§b§lDiamond"
+        name: "&b&lDiamond"

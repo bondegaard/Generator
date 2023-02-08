@@ -14,11 +14,14 @@ public class GeneratorType {
 
     private final String nextGeneratorName;
 
-    public GeneratorType(String name, ItemStack generatorItem, List<ItemStack> generatorDrops, String nextGeneratorName) {
+    private final double upgradePrice;
+
+    public GeneratorType(String name, ItemStack generatorItem, List<ItemStack> generatorDrops, String nextGeneratorName, double upgradePrice) {
         this.name = name;
         this.generatorItem = generatorItem;
         this.generatorDrops = generatorDrops;
         this.nextGeneratorName = nextGeneratorName;
+        this.upgradePrice = upgradePrice;
     }
 
     public String getName() {
@@ -37,5 +40,5 @@ public class GeneratorType {
         return nextGeneratorName;
     }
 
-
+    public double getUpgradePrice() {return upgradePrice;}
 }
