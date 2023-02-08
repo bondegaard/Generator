@@ -21,19 +21,37 @@ public class Generator {
         this.ticksBetweenDrop = ticksBetweenDrop;
     }
 
-    public String getOwnerUUID() {return ownerUUID;}
+    public String getOwnerUUID() {
+        return ownerUUID;
+    }
 
-    public GeneratorType getGeneratorType() {return generatorType;}
+    public GeneratorType getGeneratorType() {
+        return generatorType;
+    }
 
-    public long getLastDrop() {return lastDrop;}
+    public void setGeneratorType(GeneratorType generatorType) {
+        this.generatorType = generatorType;
+    }
 
-    public long getTicksBetweenDrop() {return ticksBetweenDrop;}
+    public long getLastDrop() {
+        return lastDrop;
+    }
 
-    public Location getLocation() {return location;}
+    public Generator setLastDrop(long lastDrop) {
+        this.lastDrop = lastDrop;
+        return this;
+    }
 
-    public void setGeneratorType(GeneratorType generatorType) {this.generatorType = generatorType;}
+    public long getTicksBetweenDrop() {
+        return ticksBetweenDrop;
+    }
 
-    public void setLastDrop(long lastDrop) {this.lastDrop = lastDrop;}
+    public Generator setTicksBetweenDrop(long ticksBetweenDrop) {
+        this.ticksBetweenDrop = ticksBetweenDrop;
+        return this;
+    }
 
-    public void setTicksBetweenDrop(long ticksBetweenDrop) {this.ticksBetweenDrop = ticksBetweenDrop;}
+    public Location getLocation() {
+        return location;
+    }
 }

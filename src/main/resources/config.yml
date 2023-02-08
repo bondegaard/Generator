@@ -6,6 +6,10 @@
 # joining the server for the first time
 max-gens: 20
 
+# Amount of miliseconds between generators
+# dropping items.
+# (Will be default value if generator or player does not have an individual value set)
+time-inbetween: 5000
 
 
 

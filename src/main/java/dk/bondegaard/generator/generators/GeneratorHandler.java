@@ -15,13 +15,15 @@ import java.util.logging.Level;
 
 public class GeneratorHandler {
 
-    private List<Generator> activeGenerators = new ArrayList<>();
+    private final List<Generator> activeGenerators = new ArrayList<>();
 
-    private List<GeneratorType> generatorTypes = new ArrayList<>();
+    private final List<GeneratorType> generatorTypes = new ArrayList<>();
 
     public GeneratorHandler() {
         loadGeneratorTypes();
         loop();
+
+        new GeneratorListener(this);
     }
 
     public void loadGeneratorTypes() {
@@ -51,9 +53,9 @@ public class GeneratorHandler {
             if (generatorType.contains("generator-drops")) {
                 for (String dropkey : config.getConfigurationSection("generators." + key + ".generator-drops").getKeys(false)) {
                     ConfigurationSection dropType = config.getConfigurationSection("generators." + key + ".generator-drops");
-                    ItemStack drop = ItemUtil.getConfigItem("generators." + key + ".generator-drops."+dropkey, config);
+                    ItemStack drop = ItemUtil.getConfigItem("generators." + key + ".generator-drops." + dropkey, config);
                     if (drop == null) {
-                        Main.getInstance().getLogger().log(Level.WARNING, "Could not load GeneratorDrop Item generators." + key + ".generator-drops."+dropkey+": Invalid item");
+                        Main.getInstance().getLogger().log(Level.WARNING, "Could not load GeneratorDrop Item generators." + key + ".generator-drops." + dropkey + ": Invalid item");
                         continue;
                     }
                     itemDrops.add(drop);
@@ -71,6 +73,7 @@ public class GeneratorHandler {
         }
         return null;
     }
+
     public boolean hasGeneratorType(String name) {
         return getGeneratorType(name) != null;
     }
@@ -85,11 +88,11 @@ public class GeneratorHandler {
 
     public void removeActiveGenerator(String uuid) {
         List<Generator> objectsToRemove = new ArrayList<>();
-        for (Generator generator: activeGenerators) {
-            if(!generator.getOwnerUUID().equals(uuid)) continue;
+        for (Generator generator : activeGenerators) {
+            if (!generator.getOwnerUUID().equals(uuid)) continue;
             objectsToRemove.add(generator);
         }
-        for (Generator generator: objectsToRemove) {
+        for (Generator generator : objectsToRemove) {
             activeGenerators.remove(generator);
         }
     }
@@ -100,7 +103,8 @@ public class GeneratorHandler {
             @Override
             public void run() {
                 for (Generator generator : activeGenerators) {
-                    if (System.currentTimeMillis()-generator.getLastDrop() < generator.getTicksBetweenDrop()) continue;
+                    if (System.currentTimeMillis() - generator.getLastDrop() < generator.getTicksBetweenDrop())
+                        continue;
                     if (!generator.getLocation().getChunk().isLoaded()) continue;
                     for (ItemStack drop : generator.getGeneratorType().getGeneratorDrops()) {
                         generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop);
@@ -109,5 +113,13 @@ public class GeneratorHandler {
                 }
             }
         }, 10L, 10L);
+    }
+
+    public List<Generator> getActiveGenerators() {
+        return activeGenerators;
+    }
+
+    public List<GeneratorType> getGeneratorTypes() {
+        return generatorTypes;
     }
 }

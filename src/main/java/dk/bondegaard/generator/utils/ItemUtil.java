@@ -27,7 +27,8 @@ public class ItemUtil {
 
             return itemBuilder.build();
 
-        } catch (Exception err) {}
+        } catch (Exception err) {
+        }
         return null;
     }
 }

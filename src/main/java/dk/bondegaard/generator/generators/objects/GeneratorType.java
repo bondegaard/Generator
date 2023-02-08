@@ -21,13 +21,21 @@ public class GeneratorType {
         this.nextGeneratorName = nextGeneratorName;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public ItemStack getGeneratorItem() {return generatorItem;}
+    public ItemStack getGeneratorItem() {
+        return generatorItem;
+    }
 
-    public List<ItemStack> getGeneratorDrops() {return generatorDrops;}
+    public List<ItemStack> getGeneratorDrops() {
+        return generatorDrops;
+    }
 
-    public String getNextGeneratorName() {return nextGeneratorName;}
+    public String getNextGeneratorName() {
+        return nextGeneratorName;
+    }
 
 
 }
