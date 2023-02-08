@@ -1,0 +1,7 @@
+name: Generator
+version: '${version}'
+main: dk.bondegaard.generator.Main
+authors: [Bondegaard]
+description: Generator plugin
+depend:
+  - Vault

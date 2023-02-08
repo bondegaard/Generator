@@ -1,0 +1,75 @@
+# ############## #
+# DEFAULT VALUES #
+# ############## #
+
+# Max gens slots a player will have when
+# joining the server for the first time
+max-gens: 20
+
+
+
+
+generators:
+  # ############## #
+  # Coal Generator #
+  # ############## #
+  coal:
+    next-generator: 'iron'
+    generator-item:
+      type: "173:0"
+      name: "§b§lCoal §f§lGenerator"
+      lore:
+        - ""
+        - "§fHøjre-klik for"
+        - "§fat placere."
+    generator-drops:
+      1:
+        type: "263:0"
+        name: "§b§lCoal"
+  # ############## #
+  # Iron Generator #
+  # ############## #
+  iron:
+    next-generator: 'gold'
+    generator-item:
+      type: "42:0"
+      name: "§b§lIron §f§lGenerator"
+      lore:
+        - ""
+        - "§fHøjre-klik for"
+        - "§fat placere."
+    generator-drops:
+      1:
+        type: "265:0"
+        name: "§b§lIron"
+  # ############## #
+  # Gold Generator #
+  # ############## #
+  gold:
+    next-generator: 'diamond'
+    generator-item:
+      type: "41:0"
+      name: "§b§lGold §f§lGenerator"
+      lore:
+        - ""
+        - "§fHøjre-klik for"
+        - "§fat placere."
+    generator-drops:
+      1:
+        type: "266:0"
+        name: "§b§lGold"
+  # ################# #
+  # Diamond Generator #
+  # ################# #
+  diamond:
+    generator-item:
+      type: "57:0"
+      name: "§b§lDiamond §f§lGenerator"
+      lore:
+        - ""
+        - "§fHøjre-klik for"
+        - "§fat placere."
+    generator-drops:
+      1:
+        type: "264:0"
+        name: "§b§lDiamond"
