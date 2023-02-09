@@ -14,9 +14,19 @@ public class AdminCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 1) {
             PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin reload &fReload plugin'et");
+            PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin info &fFå information omkring dette plugin'et.");
             PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin getgenerator <Name> &fFå en generator!");
             return true;
         }
+        if (args[0].equalsIgnoreCase("info")) {
+            PlayerUtils.sendMessage(sender, "");
+            PlayerUtils.sendMessage(sender, "&aGenerator ("+Main.getInstance().getDescription().getVersion()+"):");
+            PlayerUtils.sendMessage(sender, "&aKredit: &bBondegaard & Topnz");
+            PlayerUtils.sendMessage(sender, "&aVersion: &b"+Main.getInstance().getDescription().getVersion());
+            PlayerUtils.sendMessage(sender, "&aGithub: &bhttps://github.com/bondegaard/Generator");
+            return true;
+        }
+
         if (args[0].equalsIgnoreCase("reload")) {
             Main.getInstance().reloadConfig();
             Main.getInstance().getGeneratorHandler().loadGeneratorTypes();
