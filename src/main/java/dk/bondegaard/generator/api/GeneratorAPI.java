@@ -101,4 +101,15 @@ public class GeneratorAPI {
     public void sellInventory(Player player) {
         SellInventory.sellInventory(player);
     }
+
+    /**
+     * Sell a players inventory
+     * (Only selling generator drops after price defined in config)
+     *
+     * @param player The player that will be selling their inventory
+     * @param multiplier The multiplier that will be used while selling
+     */
+    public void sellInventory(Player player, double multiplier) {
+        SellInventory.sellInventory(player, multiplier);
+    }
 }

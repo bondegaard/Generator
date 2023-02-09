@@ -67,7 +67,7 @@ public class Lang {
         GENS_NOT_YOURS = getString(lang, "generator.wrong-owner", "Du ejer ikke denne generator");
 
         // Sell
-        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%!");
+        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%! (%MULTIPLIER%x)");
         SELL_FAIL = getString(lang, "sell.sell-fail", "Du har ikke noget at sælge!");
 
         try {

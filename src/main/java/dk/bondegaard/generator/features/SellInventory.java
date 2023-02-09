@@ -12,8 +12,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class SellInventory {
 
-
     public static void sellInventory(Player player) {
+        sellInventory(player, 1.0);
+    }
+
+    public static void sellInventory(Player player, double multiplier) {
         if (player == null) return;
         Economy econ = Main.getInstance().getEconomy();
         if (econ == null) return;
@@ -32,9 +35,11 @@ public class SellInventory {
             PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_FAIL);
             return;
         }
+        amount*=multiplier;
+
         player.updateInventory();
         econ.depositPlayer(player, amount);
-        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_SUCCESS.replace("%TOTAL%", amount + ""));
+        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_SUCCESS.replace("%TOTAL%", amount + "").replace("%MULTIPLIER%", multiplier+""));
     }
 
     private static GeneratorDropItem getDropItem(ItemStack item) {

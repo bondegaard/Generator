@@ -2,10 +2,7 @@ package dk.bondegaard.generator.api.skript;
 
 import ch.njol.skript.Skript;
 import dk.bondegaard.generator.api.GeneratorAPI;
-import dk.bondegaard.generator.api.skript.expressions.AddMaxGens;
-import dk.bondegaard.generator.api.skript.expressions.RemoveMaxGens;
-import dk.bondegaard.generator.api.skript.expressions.SellInventory;
-import dk.bondegaard.generator.api.skript.expressions.SetMaxGens;
+import dk.bondegaard.generator.api.skript.expressions.*;
 
 public class SkriptAPI {
 
@@ -22,6 +19,7 @@ public class SkriptAPI {
         Skript.registerEffect(AddMaxGens.class, "add maxgens for %players% to %number%");
         Skript.registerEffect(RemoveMaxGens.class, "remove maxgens for %players% to %number%");
         Skript.registerEffect(SellInventory.class, "sellgenerator drops for %players%");
+        Skript.registerEffect(SellInventoryWithMultiplier.class, "sellgenerator drops with multi %number% for %players%");
     }
 }
 
