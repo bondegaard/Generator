@@ -20,6 +20,7 @@ public class SkriptAPI {
         Skript.registerEffect(RemoveMaxGens.class, "remove maxgens for %players% to %number%");
         Skript.registerEffect(SellInventory.class, "sellgenerator drops for %players%");
         Skript.registerEffect(SellInventoryWithMultiplier.class, "sellgenerator drops with multi %number% for %players%");
+        Skript.registerEffect(GetGeneratorItem.class, "give %players% generator %string%");
     }
 }
 

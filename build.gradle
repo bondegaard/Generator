@@ -18,6 +18,7 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://repo.skriptlang.org/releases'}
     maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'}
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
 }
 
 dependencies {
@@ -25,6 +26,8 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly 'com.github.SkriptLang:Skript:2.5.3'
     compileOnly 'me.clip:placeholderapi:2.11.2'
+    implementation(platform("com.intellectualsites.bom:bom-1.18.x:1.23"))
+    compileOnly("com.plotsquared:PlotSquared-Core")
 }
 
 def targetJavaVersion = 8
