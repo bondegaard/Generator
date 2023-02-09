@@ -28,6 +28,7 @@ generators:
         - "&fat placere."
     generator-drops:
       1:
+        sell-price: 10
         type: "263:0"
         name: "&b&lCoal"
   # ############## #
@@ -45,6 +46,7 @@ generators:
         - "&fat placere."
     generator-drops:
       1:
+        sell-price: 25
         type: "265:0"
         name: "&b&lIron"
   # ############## #
@@ -62,6 +64,7 @@ generators:
         - "&fat placere."
     generator-drops:
       1:
+        sell-price: 35
         type: "266:0"
         name: "&b&lGold"
   # ################# #
@@ -77,5 +80,6 @@ generators:
         - "&fat placere."
     generator-drops:
       1:
+        sell-price: 50
         type: "264:0"
         name: "&b&lDiamond"

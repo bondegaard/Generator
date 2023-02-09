@@ -5,7 +5,9 @@ authors: [Bondegaard]
 description: Generator plugin
 depend:
   - Vault
+softdepend:
   - Skript
+  - PlaceholderAPI
 commands:
   generatoradmin:
     usage: "/generatoradmin <SubCommand>"

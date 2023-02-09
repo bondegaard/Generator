@@ -18,14 +18,16 @@ public class PlayerDataHandler implements Listener {
 
     public PlayerDataHandler(Main instance) {
         Bukkit.getPluginManager().registerEvents(this, instance);
-        for (Player player:Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             if (hasPlayer(player)) return;
             players.add(new GPlayer(player).load());
         }
     }
 
     public static void saveAll(boolean force) {
-        for (GPlayer gPlayer : players) {gPlayer.save(force);}
+        for (GPlayer gPlayer : players) {
+            gPlayer.save(force);
+        }
     }
 
 
@@ -40,7 +42,6 @@ public class PlayerDataHandler implements Listener {
     public static GPlayer getGPlayer(UUID uuid) {
         return getGPlayer(uuid.toString());
     }
-
 
 
     public static GPlayer getGPlayer(String uuid) {
@@ -73,6 +74,18 @@ public class PlayerDataHandler implements Listener {
         return getGPlayerByName(player.getName()) != null;
     }
 
+    public static boolean hasPlayer(String uuid) {
+        return getGPlayer(uuid) != null;
+    }
+
+    public static boolean hasPlayer(UUID uuid) {
+        return getGPlayer(uuid.toString()) != null;
+    }
+
+    public static boolean hasPlayer(Player player) {
+        return getGPlayer(player.getUniqueId().toString()) != null;
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         if (hasPlayer(event.getPlayer())) return;
@@ -86,17 +99,5 @@ public class PlayerDataHandler implements Listener {
         gPlayer.save(true);
         players.remove(gPlayer);
         Main.getInstance().getGeneratorHandler().removeActiveGenerator(event.getPlayer().getUniqueId().toString());
-    }
-
-    public static boolean hasPlayer(String uuid) {
-        return getGPlayer(uuid) != null;
-    }
-
-    public static boolean hasPlayer(UUID uuid) {
-        return getGPlayer(uuid.toString()) != null;
-    }
-
-    public static boolean hasPlayer(Player player) {
-        return getGPlayer(player.getUniqueId().toString()) != null;
     }
 }

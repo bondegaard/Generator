@@ -55,7 +55,7 @@ public class GeneratorListener implements Listener {
                     .replace("%MAX%", gPlayer.getMaxGens() + ""));
 
             gPlayer.save();
-            event.getBlockPlaced().setMetadata("generator", new FixedMetadataValue(Main.getInstance(),player.getUniqueId().toString()));
+            event.getBlockPlaced().setMetadata("generator", new FixedMetadataValue(Main.getInstance(), player.getUniqueId().toString()));
             return;
         }
     }
@@ -73,7 +73,7 @@ public class GeneratorListener implements Listener {
         if (!event.getClickedBlock().hasMetadata("generator")) return;
 
         if (!event.getClickedBlock().getMetadata("generator").get(0).asString().equals(event.getPlayer().getUniqueId().toString())) {
-            PlayerUtils.sendMessage(event.getPlayer(), Lang.PREFIX+Lang.GENS_NOT_YOURS);
+            PlayerUtils.sendMessage(event.getPlayer(), Lang.PREFIX + Lang.GENS_NOT_YOURS);
             return;
         }
 
@@ -106,10 +106,10 @@ public class GeneratorListener implements Listener {
             // Check player Balance
             double playerBalance = economy.getBalance(player);
             if (playerBalance < generator.getGeneratorType().getUpgradePrice()) {
-                PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_UPGRADED_INVALID_FOUNDS.replace("%NEEDED%", ""+(generator.getGeneratorType().getUpgradePrice()-playerBalance)));
+                PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_UPGRADED_INVALID_FOUNDS.replace("%NEEDED%", "" + (generator.getGeneratorType().getUpgradePrice() - playerBalance)));
                 return;
             }
-            
+
             // Upgrade Generator
             economy.withdrawPlayer(player, generator.getGeneratorType().getUpgradePrice());
 
@@ -128,7 +128,6 @@ public class GeneratorListener implements Listener {
             handler.removeActiveGenerator(generator);
             PlayerDataHandler.getGPlayer(player).removeGenerator(generator);
             player.getInventory().addItem(generator.getGeneratorType().getGeneratorItem());
-            return;
         }
     }
 }

@@ -55,7 +55,9 @@ public final class Main extends JavaPlugin {
         return generatorHandler;
     }
 
-    public Economy getEconomy() {return economy;}
+    public Economy getEconomy() {
+        return economy;
+    }
 
     private boolean setupEconomy() {
         if (Bukkit.getPluginManager().getPlugin("Vault") == null) return false;

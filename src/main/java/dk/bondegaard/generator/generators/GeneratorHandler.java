@@ -2,6 +2,7 @@ package dk.bondegaard.generator.generators;
 
 import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.generators.objects.Generator;
+import dk.bondegaard.generator.generators.objects.GeneratorDropItem;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.ItemUtil;
 import dk.bondegaard.generator.utils.Utils;
@@ -56,16 +57,18 @@ public class GeneratorHandler {
                 continue;
             }
             // Load generator drops
-            List<ItemStack> itemDrops = new ArrayList<>();
+            List<GeneratorDropItem> itemDrops = new ArrayList<>();
             if (generatorType.contains("generator-drops")) {
                 for (String dropkey : config.getConfigurationSection("generators." + key + ".generator-drops").getKeys(false)) {
-                    ConfigurationSection dropType = config.getConfigurationSection("generators." + key + ".generator-drops");
+                    // Get drop item and sell price
                     ItemStack drop = ItemUtil.getConfigItem("generators." + key + ".generator-drops." + dropkey, config);
+                    double sellPriceDrop = config.contains("generators." + key + ".generator-drops." + dropkey + ".sell-price") ? config.getDouble("generators." + key + ".generator-drops." + dropkey + ".sell-price") : 0;
+
                     if (drop == null) {
                         Main.getInstance().getLogger().log(Level.WARNING, "Could not load GeneratorDrop Item generators." + key + ".generator-drops." + dropkey + ": Invalid item");
                         continue;
                     }
-                    itemDrops.add(drop);
+                    itemDrops.add(new GeneratorDropItem(drop, sellPriceDrop));
                 }
             }
             double upgradePrice = generatorType.contains("upgrade-price") ? generatorType.getDouble("upgrade-price") : -1;
@@ -128,15 +131,14 @@ public class GeneratorHandler {
                     if (System.currentTimeMillis() - generator.getLastDrop() < generator.getTicksBetweenDrop())
                         continue;
                     if (!generator.getLocation().getChunk().isLoaded()) continue;
-                    for (ItemStack drop : generator.getGeneratorType().getGeneratorDrops()) {
-                        generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop);
+                    for (GeneratorDropItem drop : generator.getGeneratorType().getGeneratorDrops()) {
+                        generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop.getItem());
                     }
                     generator.setLastDrop(System.currentTimeMillis());
                 }
             }
         }, 10L, 10L);
     }
-
 
 
     public List<Generator> getActiveGenerators() {
@@ -171,7 +173,7 @@ public class GeneratorHandler {
 
                                 // Load Generator stats
                                 Location loc = Utils.stringToLocation(gen.getString("location"));
-                                loc.getBlock().setMetadata("generator", new FixedMetadataValue(Main.getInstance(),uuid));
+                                loc.getBlock().setMetadata("generator", new FixedMetadataValue(Main.getInstance(), uuid));
 
                             } catch (NullPointerException ignored) {
                             }

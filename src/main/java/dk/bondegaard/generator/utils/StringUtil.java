@@ -22,7 +22,7 @@ public final class StringUtil {
 
     public static List<String> colorize(List<String> messages) {
         List<String> coloredMessages = new ArrayList<>();
-        for (String s: messages) {
+        for (String s : messages) {
             coloredMessages.add(colorize(s));
         }
         return coloredMessages;

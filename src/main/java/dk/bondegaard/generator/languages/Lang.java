@@ -1,6 +1,5 @@
 package dk.bondegaard.generator.languages;
 
-import com.google.gson.JsonArray;
 import dk.bondegaard.generator.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,11 +8,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 public class Lang {
+    private static final Main instance = Main.getInstance();
     // Default Messages
     public static String PREFIX;
     public static String PERMISSION_DENY;
@@ -25,14 +24,11 @@ public class Lang {
     public static String GENS_UPGRADED_INVALID_FOUNDS;
     public static String GENS_UPGRADED_MAX;
     public static String GENS_UPGRADED_NO_UPGRADE;
-
     public static String GENS_REMOVED;
     public static String GENS_NOT_YOURS;
-
-
-
-
-    private static final Main instance = Main.getInstance();
+    // SELL
+    public static String SELL_SUCCESS;
+    public static String SELL_FAIL;
 
 
     public Lang() {
@@ -49,7 +45,8 @@ public class Lang {
         File dataFile = new File(Main.getInstance().getDataFolder(), "lang.yml");
         if (!dataFile.exists()) try {
             dataFile.createNewFile();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
 
         FileConfiguration lang = YamlConfiguration.loadConfiguration(dataFile);
 
@@ -68,6 +65,11 @@ public class Lang {
 
         GENS_REMOVED = getString(lang, "generator.remove-success", "Du har fjernet din generator");
         GENS_NOT_YOURS = getString(lang, "generator.wrong-owner", "Du ejer ikke denne generator");
+
+        // Sell
+        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%!");
+        SELL_FAIL = getString(lang, "sell.sell-fail", "Du har ikke noget at sælge!");
+
         try {
             lang.save(dataFile);
         } catch (IOException ex) {
@@ -105,11 +107,5 @@ public class Lang {
         }
 
         return list;
-    }
-
-    private static List<String> getStringList(FileConfiguration lang, String path, JsonArray def) {
-        List<String> defList = new ArrayList<>();
-        def.forEach(e -> defList.add(e.getAsString()));
-        return getStringList(lang, path, defList);
     }
 }

@@ -10,13 +10,13 @@ public class GeneratorType {
 
     private final ItemStack generatorItem;
 
-    private final List<ItemStack> generatorDrops;
+    private final List<GeneratorDropItem> generatorDrops;
 
     private final String nextGeneratorName;
 
     private final double upgradePrice;
 
-    public GeneratorType(String name, ItemStack generatorItem, List<ItemStack> generatorDrops, String nextGeneratorName, double upgradePrice) {
+    public GeneratorType(String name, ItemStack generatorItem, List<GeneratorDropItem> generatorDrops, String nextGeneratorName, double upgradePrice) {
         this.name = name;
         this.generatorItem = generatorItem;
         this.generatorDrops = generatorDrops;
@@ -32,7 +32,7 @@ public class GeneratorType {
         return generatorItem;
     }
 
-    public List<ItemStack> getGeneratorDrops() {
+    public List<GeneratorDropItem> getGeneratorDrops() {
         return generatorDrops;
     }
 
@@ -40,5 +40,7 @@ public class GeneratorType {
         return nextGeneratorName;
     }
 
-    public double getUpgradePrice() {return upgradePrice;}
+    public double getUpgradePrice() {
+        return upgradePrice;
+    }
 }

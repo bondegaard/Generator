@@ -11,7 +11,7 @@ import org.bukkit.event.Event;
 
 import java.util.Objects;
 
-public class SetMaxGens extends Effect {
+public class RemoveMaxGens extends Effect {
 
     private Expression<Player> player;
 
@@ -22,7 +22,9 @@ public class SetMaxGens extends Effect {
         int intValue = Objects.requireNonNull(value.getSingle(e)).intValue();
         GPlayer gPlayer = PlayerDataHandler.getGPlayer(player.getSingle(e).getPlayer());
         if (gPlayer == null) return;
-        gPlayer.setMaxGens(intValue);
+        int newValue = gPlayer.getMaxGens() - intValue;
+        if (newValue < 0) newValue = 0;
+        gPlayer.setMaxGens(newValue);
     }
 
     @Override
@@ -41,3 +43,4 @@ public class SetMaxGens extends Effect {
         return true;
     }
 }
+

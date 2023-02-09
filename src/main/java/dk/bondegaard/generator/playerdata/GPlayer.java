@@ -41,7 +41,8 @@ public class GPlayer {
         File dataFile = new File(folder, player.getUniqueId() + ".yml");
         if (!dataFile.exists()) try {
             dataFile.createNewFile();
-        } catch (IOException ex) {}
+        } catch (IOException ex) {
+        }
 
         // Loads the file as a bukkit config
         this.data = YamlConfiguration.loadConfiguration(dataFile);
@@ -119,9 +120,12 @@ public class GPlayer {
                 }
             }
             Main.getInstance().getGeneratorHandler().removeActiveGenerator(player.getUniqueId().toString());
-        } catch (NullPointerException ignored) {}//if player has no gens
+        } catch (NullPointerException ignored) {
+        }//if player has no gens
         // Add gens as active gens
-        for (Generator gen: generators) {Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);}
+        for (Generator gen : generators) {
+            Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);
+        }
     }
 
     public void removeGenerator(Generator generator) {
@@ -141,5 +145,7 @@ public class GPlayer {
         return maxGens;
     }
 
-    public void setMaxGens(int maxGens) {this.maxGens = maxGens;}
+    public void setMaxGens(int maxGens) {
+        this.maxGens = maxGens;
+    }
 }
