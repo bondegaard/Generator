@@ -4,12 +4,15 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.api.placeholderapi.PlaceholderAPI;
 import dk.bondegaard.generator.api.plotsquared.PlotSquaredAPI;
 import dk.bondegaard.generator.api.skript.SkriptAPI;
+import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.features.SellInventory;
 import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -108,10 +111,48 @@ public class GeneratorAPI {
      * Sell a players inventory
      * (Only selling generator drops after price defined in config)
      *
-     * @param player The player that will be selling their inventory
+     * @param player     The player that will be selling their inventory
      * @param multiplier The multiplier that will be used while selling
      */
     public void sellInventory(Player player, double multiplier) {
         SellInventory.sellInventory(player, multiplier);
+    }
+
+    /**
+     * Pickup  all a players generators and give the player the generators
+     *
+     * @param player The player whose generators will be picked up
+     */
+    public void pickupAllGens(Player player) {
+        Pickup.pickupAll(player);
+    }
+
+    /**
+     * Removes a generator at specific location for a player that may not be online
+     * (Do player can be online, but it is not needed)
+     *
+     * @param offlinePlayer The offline player that owns the generator
+     * @param location      The location of the generator (The block)
+     * @return true if the generator was found and removed, otherwise false
+     */
+    public boolean removeOfflineplayerGen(OfflinePlayer offlinePlayer, Location location) {
+        return Pickup.pickupOfflineplayerGen(offlinePlayer, location) != null;
+    }
+
+    /**
+     * Removes a generator at specific location for a player that may not be online
+     * And gives the generator to another player
+     * (Do player can be online, but it is not needed)
+     *
+     * @param player        The player that will recieve the generator
+     * @param offlinePlayer The offline player that owns the generator
+     * @param location      The location of the generator (The block)
+     * @return true if the generator was found and removed, otherwise false
+     */
+    public boolean removeAndGetOfflineplayerGen(Player player, OfflinePlayer offlinePlayer, Location location) {
+        ItemStack gen = Pickup.pickupOfflineplayerGen(offlinePlayer, location);
+        if (gen == null) return false;
+        Pickup.giveItem(player, gen);
+        return true;
     }
 }

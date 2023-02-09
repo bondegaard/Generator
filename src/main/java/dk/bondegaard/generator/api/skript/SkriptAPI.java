@@ -21,6 +21,10 @@ public class SkriptAPI {
         Skript.registerEffect(SellInventory.class, "sellgenerator drops for %players%");
         Skript.registerEffect(SellInventoryWithMultiplier.class, "sellgenerator drops with multi %number% for %players%");
         Skript.registerEffect(GetGeneratorItem.class, "give %players% generator %string%");
+        Skript.registerEffect(PickupGens.class, "pickup gens for %players%");
+        Skript.registerEffect(RemoveOfflineplayerGen.class, "remove gen for %offline-players% at %location%");
+        Skript.registerEffect(RemoveOfflineplayerGensPickup.class, "pickup gen for %offline-players% at %location% to %player%");
+        
     }
 }
 

@@ -5,10 +5,10 @@ import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.Utils;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.logging.Level;
 public class GPlayer {
 
     // Variables
-    private final Player player;
+    private final OfflinePlayer player;
     private final List<Generator> generators = new ArrayList<>();
     private FileConfiguration data;
     private long lastSave = System.currentTimeMillis() - 10000;
@@ -27,7 +27,7 @@ public class GPlayer {
 
 
     // Constructor
-    public GPlayer(Player player) {
+    public GPlayer(OfflinePlayer player) {
         this.player = player;
     }
 
@@ -83,7 +83,7 @@ public class GPlayer {
     }
 
     // Getters
-    public Player getPlayer() {
+    public OfflinePlayer getPlayer() {
         return player;
     }
 
@@ -91,7 +91,7 @@ public class GPlayer {
         return data;
     }
 
-    private void setDefaultValues(Player player, FileConfiguration data) {
+    private void setDefaultValues(OfflinePlayer player, FileConfiguration data) {
         data.set("username", player.getName());
         if (!data.contains("generators")) data.set("generators", new ArrayList<>());
         if (data.contains("max-gens")) data.set("max-gens", Main.getInstance().getConfig().getInt("max-gens"));
@@ -123,8 +123,10 @@ public class GPlayer {
         } catch (NullPointerException ignored) {
         }//if player has no gens
         // Add gens as active gens
-        for (Generator gen : generators) {
-            Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);
+        if (player.isOnline()) {
+            for (Generator gen : generators) {
+                Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);
+            }
         }
     }
 
@@ -147,5 +149,13 @@ public class GPlayer {
 
     public void setMaxGens(int maxGens) {
         this.maxGens = maxGens;
+    }
+
+    public Generator getGeneratorAtLoc(Location loc) {
+        for (Generator generator : generators) {
+            if (generator.getLocation().distance(loc) < 0.51)
+                return generator;
+        }
+        return null;
     }
 }

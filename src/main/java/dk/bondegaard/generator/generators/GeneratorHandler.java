@@ -8,6 +8,7 @@ import dk.bondegaard.generator.utils.ItemUtil;
 import dk.bondegaard.generator.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -131,6 +132,7 @@ public class GeneratorHandler {
                     if (System.currentTimeMillis() - generator.getLastDrop() < generator.getTicksBetweenDrop())
                         continue;
                     if (!generator.getLocation().getChunk().isLoaded()) continue;
+                    if (generator.getLocation().getBlock().getType() == Material.AIR) continue;
                     for (GeneratorDropItem drop : generator.getGeneratorType().getGeneratorDrops()) {
                         generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop.getItem());
                     }

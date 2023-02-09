@@ -2,6 +2,7 @@ package dk.bondegaard.generator.playerdata;
 
 import dk.bondegaard.generator.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,8 +20,7 @@ public class PlayerDataHandler implements Listener {
     public PlayerDataHandler(Main instance) {
         Bukkit.getPluginManager().registerEvents(this, instance);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (hasPlayer(player)) return;
-            players.add(new GPlayer(player).load());
+            if (loadPlayer(player)) return;
         }
     }
 
@@ -37,6 +37,17 @@ public class PlayerDataHandler implements Listener {
 
     public static GPlayer getGPlayer(Player player) {
         return getGPlayer(player.getUniqueId().toString());
+    }
+
+    public static GPlayer getOrCreateGPlayer(OfflinePlayer player) {
+        for (GPlayer gPlayer : players) {
+            if (gPlayer.getPlayer() == null) continue;
+            if (!gPlayer.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) continue;
+            return gPlayer;
+        }
+        GPlayer gPlayer = new GPlayer(player);
+        players.add(gPlayer);
+        return gPlayer;
     }
 
     public static GPlayer getGPlayer(UUID uuid) {
@@ -82,14 +93,19 @@ public class PlayerDataHandler implements Listener {
         return getGPlayer(uuid.toString()) != null;
     }
 
-    public static boolean hasPlayer(Player player) {
+    public static boolean hasPlayer(OfflinePlayer player) {
         return getGPlayer(player.getUniqueId().toString()) != null;
+    }
+
+    private static boolean loadPlayer(OfflinePlayer offlinePlayer) {
+        if (hasPlayer(offlinePlayer)) return false;
+        players.add(new GPlayer(offlinePlayer).load());
+        return true;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if (hasPlayer(event.getPlayer())) return;
-        players.add(new GPlayer(event.getPlayer()).load());
+        loadPlayer(event.getPlayer());
     }
 
     @EventHandler

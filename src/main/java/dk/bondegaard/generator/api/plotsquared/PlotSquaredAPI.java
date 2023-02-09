@@ -5,14 +5,14 @@ import org.bukkit.Location;
 
 public class PlotSquaredAPI {
 
-  //  private final PlotAPI plotAPIapi;
+    //  private final PlotAPI plotAPIapi;
 
     private final GeneratorAPI api;
 
     public PlotSquaredAPI(GeneratorAPI api) {
         this.api = api;
 
-   //     plotAPIapi = new PlotAPI();
+        //     plotAPIapi = new PlotAPI();
 
         load();
     }

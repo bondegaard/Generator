@@ -35,11 +35,11 @@ public class SellInventory {
             PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_FAIL);
             return;
         }
-        amount*=multiplier;
+        amount *= multiplier;
 
         player.updateInventory();
         econ.depositPlayer(player, amount);
-        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_SUCCESS.replace("%TOTAL%", amount + "").replace("%MULTIPLIER%", multiplier+""));
+        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_SUCCESS.replace("%TOTAL%", amount + "").replace("%MULTIPLIER%", multiplier + ""));
     }
 
     private static GeneratorDropItem getDropItem(ItemStack item) {
