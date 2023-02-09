@@ -1,5 +1,7 @@
 package dk.bondegaard.generator;
 
+import dk.bondegaard.generator.api.GeneratorAPI;
+import dk.bondegaard.generator.commands.AdminCommand;
 import dk.bondegaard.generator.generators.GeneratorHandler;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
@@ -33,11 +35,15 @@ public final class Main extends JavaPlugin {
             return;
         }
 
-        new Lang(this);
+        Lang.reload();
 
         new PlayerDataHandler(this);
         generatorHandler = new GeneratorHandler();
 
+
+        getCommand("generatoradmin").setExecutor(new AdminCommand());
+
+        new GeneratorAPI(this);
     }
 
     @Override

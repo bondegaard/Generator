@@ -26,21 +26,27 @@ public class Lang {
     public static String GENS_UPGRADED_MAX;
     public static String GENS_UPGRADED_NO_UPGRADE;
 
+    public static String GENS_REMOVED;
+    public static String GENS_NOT_YOURS;
 
 
 
-    private final Main instance;
+
+    private static final Main instance = Main.getInstance();
 
 
-    public Lang(Main instance) {
-        this.instance = instance;
+    public Lang() {
         loadLangConfig();
     }
 
-    private void loadLangConfig() {
+    public static void reload() {
+        loadLangConfig();
+    }
+
+    private static void loadLangConfig() {
 
         //Creates the unique data file if it doesn't exist
-        File dataFile = new File("lang.yml");
+        File dataFile = new File(Main.getInstance().getDataFolder(), "lang.yml");
         if (!dataFile.exists()) try {
             dataFile.createNewFile();
         } catch (IOException ignored) {}
@@ -60,6 +66,8 @@ public class Lang {
         GENS_UPGRADED_MAX = getString(lang, "generator.upgrade-max", "Du kan ikke opgradere denne generator!");
         GENS_UPGRADED_NO_UPGRADE = getString(lang, "generator.no-upgrade", "Denne generator kan ikke opgrades!");
 
+        GENS_REMOVED = getString(lang, "generator.remove-success", "Du har fjernet din generator");
+        GENS_NOT_YOURS = getString(lang, "generator.wrong-owner", "Du ejer ikke denne generator");
         try {
             lang.save(dataFile);
         } catch (IOException ex) {
@@ -67,7 +75,7 @@ public class Lang {
         }
     }
 
-    private String getString(FileConfiguration lang, String path, String def, int maxLenth) {
+    private static String getString(FileConfiguration lang, String path, String def, int maxLenth) {
         if (!lang.contains(path)) lang.set(path, def);
         String string = ChatColor.translateAlternateColorCodes('&', lang.getString(path, def));
 
@@ -79,11 +87,11 @@ public class Lang {
         return string;
     }
 
-    private String getString(FileConfiguration lang, String path, String def) {
+    private static String getString(FileConfiguration lang, String path, String def) {
         return getString(lang, path, def, -1);
     }
 
-    private List<String> getStringList(FileConfiguration lang, String path, List<String> def) {
+    private static List<String> getStringList(FileConfiguration lang, String path, List<String> def) {
         if (!lang.contains(path)) lang.set(path, def);
         List<String> list = lang.getStringList(path);
         if (list.isEmpty()) {
@@ -99,7 +107,7 @@ public class Lang {
         return list;
     }
 
-    private List<String> getStringList(FileConfiguration lang, String path, JsonArray def) {
+    private static List<String> getStringList(FileConfiguration lang, String path, JsonArray def) {
         List<String> defList = new ArrayList<>();
         def.forEach(e -> defList.add(e.getAsString()));
         return getStringList(lang, path, defList);

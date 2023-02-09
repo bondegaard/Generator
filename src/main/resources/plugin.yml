@@ -5,3 +5,9 @@ authors: [Bondegaard]
 description: Generator plugin
 depend:
   - Vault
+  - Skript
+commands:
+  generatoradmin:
+    usage: "/generatoradmin <SubCommand>"
+    description: "Generator admin command"
+    aliases: [gadmin]

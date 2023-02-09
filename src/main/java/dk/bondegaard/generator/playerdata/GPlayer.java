@@ -100,25 +100,27 @@ public class GPlayer {
         generators.clear();
         maxGens = data.getInt("max-gens");
         // Load gens from player
-        for (String key : data.getConfigurationSection("generators").getKeys(false)) {
-            try {
-                ConfigurationSection gen = data.getConfigurationSection("generators." + key);
+        try {
+            for (String key : data.getConfigurationSection("generators").getKeys(false)) {
+                try {
+                    ConfigurationSection gen = data.getConfigurationSection("generators." + key);
 
-                // Load Generator stats
-                Location loc = Utils.stringToLocation(gen.getString("location"));
-                GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(gen.getString("gen-name"));
-                long timeBetween = gen.contains("time-between-drop") ? gen.getLong("time-between-drop") : Main.getInstance().getConfig().getLong("time-inbetween");
-                long lastDrop = gen.contains("last-drop") ? gen.getLong("last-drop") : -1;
+                    // Load Generator stats
+                    Location loc = Utils.stringToLocation(gen.getString("location"));
+                    GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(gen.getString("gen-name"));
+                    long timeBetween = gen.contains("time-between-drop") ? gen.getLong("time-between-drop") : Main.getInstance().getConfig().getLong("time-inbetween");
+                    long lastDrop = gen.contains("last-drop") ? gen.getLong("last-drop") : -1;
 
-                generators.add(new Generator(player.getUniqueId().toString(), loc, generatorType, timeBetween).setLastDrop(lastDrop != -1 ? lastDrop : System.currentTimeMillis()));
-            } catch (NullPointerException ex) {
-                ex.printStackTrace();
-                Main.getInstance().getLogger().log(Level.WARNING, "Could not load " + player.getName() + " generator as it is invalid : Deleting it");
-                data.set("generators." + key, null);
+                    generators.add(new Generator(player.getUniqueId().toString(), loc, generatorType, timeBetween).setLastDrop(lastDrop != -1 ? lastDrop : System.currentTimeMillis()));
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                    Main.getInstance().getLogger().log(Level.WARNING, "Could not load " + player.getName() + " generator as it is invalid : Deleting it");
+                    data.set("generators." + key, null);
+                }
             }
-        }
+            Main.getInstance().getGeneratorHandler().removeActiveGenerator(player.getUniqueId().toString());
+        } catch (NullPointerException ignored) {}//if player has no gens
         // Add gens as active gens
-        Main.getInstance().getGeneratorHandler().removeActiveGenerator(player.getUniqueId().toString());
         for (Generator gen: generators) {Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);}
     }
 
@@ -138,4 +140,6 @@ public class GPlayer {
     public int getMaxGens() {
         return maxGens;
     }
+
+    public void setMaxGens(int maxGens) {this.maxGens = maxGens;}
 }

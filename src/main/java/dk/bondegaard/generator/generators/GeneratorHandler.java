@@ -4,12 +4,16 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.ItemUtil;
+import dk.bondegaard.generator.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,6 +29,8 @@ public class GeneratorHandler {
         loop();
 
         new GeneratorListener(this);
+
+        loadGeneratorBlockData();
     }
 
     public void loadGeneratorTypes() {
@@ -139,5 +145,42 @@ public class GeneratorHandler {
 
     public List<GeneratorType> getGeneratorTypes() {
         return generatorTypes;
+    }
+
+
+    private void loadGeneratorBlockData() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                File folder = new File(Main.getInstance().getDataFolder(), "playerdata");
+                folder.mkdirs();
+
+                // Loop throug each file
+                for (File file : folder.listFiles()) {
+                    try {
+                        // Get config file
+                        String uuid = file.getName().split("\\.")[0];
+                        FileConfiguration data = YamlConfiguration.loadConfiguration(file);
+
+                        // loop through each generator
+                        if (!data.contains("generators")) continue;
+                        for (String key : data.getConfigurationSection("generators").getKeys(false)) {
+                            try {
+                                // set metadata of generator
+                                ConfigurationSection gen = data.getConfigurationSection("generators." + key);
+
+                                // Load Generator stats
+                                Location loc = Utils.stringToLocation(gen.getString("location"));
+                                loc.getBlock().setMetadata("generator", new FixedMetadataValue(Main.getInstance(),uuid));
+
+                            } catch (NullPointerException ignored) {
+                            }
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 }

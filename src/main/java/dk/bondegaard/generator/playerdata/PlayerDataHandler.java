@@ -18,6 +18,10 @@ public class PlayerDataHandler implements Listener {
 
     public PlayerDataHandler(Main instance) {
         Bukkit.getPluginManager().registerEvents(this, instance);
+        for (Player player:Bukkit.getOnlinePlayers()) {
+            if (hasPlayer(player)) return;
+            players.add(new GPlayer(player).load());
+        }
     }
 
     public static void saveAll(boolean force) {
@@ -36,6 +40,8 @@ public class PlayerDataHandler implements Listener {
     public static GPlayer getGPlayer(UUID uuid) {
         return getGPlayer(uuid.toString());
     }
+
+
 
     public static GPlayer getGPlayer(String uuid) {
         for (GPlayer gPlayer : players) {
