@@ -25,6 +25,12 @@ public class GPlayer {
     private long lastSave = System.currentTimeMillis() - 10000;
     private int maxGens = 20;
 
+    private long prestige = 0;
+
+    private long level = 1;
+
+    private long exp = 0;
+
 
     // Constructor
     public GPlayer(OfflinePlayer player) {
@@ -62,6 +68,9 @@ public class GPlayer {
         File dataFile = new File(folder, player.getUniqueId() + ".yml");
         // Save values
         data.set("max-gens", maxGens);
+        data.set("prestige", prestige);
+        data.set("level", level);
+        data.set("exp", exp);
 
         // save generators and clear old
         int i = 1;
@@ -95,11 +104,17 @@ public class GPlayer {
         data.set("username", player.getName());
         if (!data.contains("generators")) data.set("generators", new ArrayList<>());
         if (data.contains("max-gens")) data.set("max-gens", Main.getInstance().getConfig().getInt("max-gens"));
+        if (data.contains("prestige")) data.set("prestige", 0L);
+        if (data.contains("level")) data.set("level", 1L);
+        if (data.contains("exp")) data.set("exp", 0L);
     }
 
     private void loadPlayerStats() {
         generators.clear();
         maxGens = data.getInt("max-gens");
+        prestige = data.getLong("prestige");
+        level = data.getLong("level");
+        exp = data.getLong("exp");
         // Load gens from player
         try {
             for (String key : data.getConfigurationSection("generators").getKeys(false)) {
@@ -158,4 +173,27 @@ public class GPlayer {
         }
         return null;
     }
+
+    public long getPrestige() {return prestige;}
+
+    public long getLevel() {return level;}
+
+    public long getExp() {return exp;}
+
+    public void setPrestige(long prestige) {this.prestige = prestige;}
+    public void addPrestige() {this.prestige++;}
+    public void addPrestige(long prestige) {this.prestige+=prestige;}
+    public void removePrestige() {this.prestige--;}
+    public void removePrestige(long prestige) {this.prestige-=prestige;}
+    public void setLevel(long level) {this.level = level;}
+    public void addLevel() {this.level++;}
+    public void addLevel(long level) {this.level+=level;}
+    public void removeLevel() {this.level--;}
+    public void removeLevel(long level) {this.level-=level;}
+    public void setExp(long exp) {this.exp = exp;}
+
+    public void addExp() {this.exp++;}
+    public void addExp(long exp) {this.exp+=exp;}
+    public void removeExp() {this.exp--;}
+    public void removeExp(long exp) {this.exp-=exp;}
 }

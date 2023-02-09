@@ -34,6 +34,21 @@ public class GeneratorExpansion extends PlaceholderExpansion {
             if (gPlayer == null) return "Not Loaded...!";
             return gPlayer.getGenerators().size() + "";
         }
+        if (params.equalsIgnoreCase("prestige")) {
+            GPlayer gPlayer = PlayerDataHandler.getGPlayer((Player) player);
+            if (gPlayer == null) return "Not Loaded...!";
+            return gPlayer.getPrestige() + "";
+        }
+        if (params.equalsIgnoreCase("level")) {
+            GPlayer gPlayer = PlayerDataHandler.getGPlayer((Player) player);
+            if (gPlayer == null) return "Not Loaded...!";
+            return gPlayer.getLevel() + "";
+        }
+        if (params.equalsIgnoreCase("exp")) {
+            GPlayer gPlayer = PlayerDataHandler.getGPlayer((Player) player);
+            if (gPlayer == null) return "Not Loaded...!";
+            return gPlayer.getExp() + "";
+        }
 
         return null; // Placeholder is unknown by the Expansion
     }
