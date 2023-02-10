@@ -19,7 +19,10 @@ public class SellInventory {
     public static void sellInventory(Player player, double multiplier) {
         if (player == null) return;
         Economy econ = Main.getInstance().getEconomy();
-        if (econ == null) return;
+        if (econ == null) {
+            PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.ERROR.replace("%ERROR%", "Økonomi ikke opsat!"));
+            return;
+        }
 
         double amount = 0.0;
         for (int slot = 0; slot < player.getInventory().getSize(); slot++) {

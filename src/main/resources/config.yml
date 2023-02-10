@@ -11,6 +11,9 @@ max-gens: 20
 # (Will be default value if generator or player does not have an individual value set)
 time-inbetween: 5000
 
+# Should the plugins shop be loaded?
+shop-enabled: false
+
 
 generators:
   # ############## #

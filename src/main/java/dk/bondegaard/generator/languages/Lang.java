@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -26,9 +27,17 @@ public class Lang {
     public static String GENS_UPGRADED_NO_UPGRADE;
     public static String GENS_REMOVED;
     public static String GENS_NOT_YOURS;
+
     // SELL
     public static String SELL_SUCCESS;
     public static String SELL_FAIL;
+
+    // SHOP
+    public static String SHOP_BUY_SUCCESS;
+    public static String SHOP_BUY_FAIL;
+    public static String SHOP_FULL_INVENTORY;
+    public static List<String> SHOP_ITEM_LORE;
+
 
 
     public Lang() {
@@ -69,6 +78,13 @@ public class Lang {
         // Sell
         SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%! (%MULTIPLIER%x)");
         SELL_FAIL = getString(lang, "sell.sell-fail", "Du har ikke noget at sælge!");
+
+        // Shop
+        SHOP_BUY_SUCCESS = getString(lang, "shop.buy-success", "Du købte en %TYPE% generator for %PRICE%$");
+        SHOP_BUY_FAIL = getString(lang, "shop.buy-fail", "Du mangler %NEEDED%$ købe denne generator!");
+        SHOP_FULL_INVENTORY = getString(lang, "shop.full-inventory", "Du har ikke nok plads i din inventory til dette!");
+        SHOP_ITEM_LORE = getStringList(lang, "shop.shop-item-lore", Arrays.asList("&bPris: &f%PRICE%$", "", "&b&nTryk for at købe!"));
+
 
         try {
             lang.save(dataFile);

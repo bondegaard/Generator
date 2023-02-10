@@ -2,6 +2,7 @@ package dk.bondegaard.generator;
 
 import dk.bondegaard.generator.api.GeneratorAPI;
 import dk.bondegaard.generator.commands.AdminCommand;
+import dk.bondegaard.generator.features.shop.ShopHandler;
 import dk.bondegaard.generator.generators.GeneratorHandler;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
@@ -40,10 +41,16 @@ public final class Main extends JavaPlugin {
         new PlayerDataHandler(this);
         generatorHandler = new GeneratorHandler();
 
-
+        // Commands
         getCommand("generatoradmin").setExecutor(new AdminCommand());
 
+        // API
         new GeneratorAPI(this);
+        loadFeatures();
+    }
+
+    private void loadFeatures() {
+        new ShopHandler();
     }
 
     @Override
