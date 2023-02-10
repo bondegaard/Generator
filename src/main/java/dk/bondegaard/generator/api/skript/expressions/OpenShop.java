@@ -1,0 +1,35 @@
+package dk.bondegaard.generator.api.skript.expressions;
+
+import ch.njol.skript.lang.Effect;
+import ch.njol.skript.lang.Expression;
+import ch.njol.skript.lang.SkriptParser;
+import ch.njol.util.Kleenean;
+import dk.bondegaard.generator.features.Pickup;
+import dk.bondegaard.generator.features.shop.ShopHandler;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+
+public class OpenShop extends Effect {
+
+    private Expression<Player> player;
+
+    @Override
+    protected void execute(Event e) {
+        ShopHandler.openShop(player.getSingle(e).getPlayer());
+    }
+
+    @Override
+    public String toString(Event e, boolean debug) {
+        return null;
+    }
+
+    @Override
+    public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+        try {
+            this.player = (Expression) expressions[0];
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+}

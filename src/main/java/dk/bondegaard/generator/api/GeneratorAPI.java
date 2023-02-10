@@ -5,6 +5,7 @@ import dk.bondegaard.generator.api.placeholderapi.PlaceholderAPI;
 import dk.bondegaard.generator.api.skript.SkriptAPI;
 import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.features.SellInventory;
+import dk.bondegaard.generator.features.shop.ShopHandler;
 import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.playerdata.GPlayer;
@@ -152,5 +153,14 @@ public class GeneratorAPI {
         if (gen == null) return false;
         Pickup.giveItem(player, gen);
         return true;
+    }
+
+    /**
+     * Open the shop for a player if it was enabled in the config
+     * @param player The player which shop will be opened for
+     */
+    public void openShop(Player player) {
+        if (player == null) return;
+        ShopHandler.openShop(player);
     }
 }

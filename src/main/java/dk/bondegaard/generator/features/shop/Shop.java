@@ -28,6 +28,7 @@ public class Shop extends GUI {
             // Basic Variables
             Integer slot = 0;
             try { slot = Integer.parseInt(key);} catch (Exception ignored) {}
+            if (slot > 53) continue;
             ConfigurationSection section = handler.getShopConfig().getConfigurationSection("gui-layout."+key);
 
             // Get Shop item Info
