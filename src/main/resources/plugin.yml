@@ -8,7 +8,6 @@ depend:
 softdepend:
   - Skript
   - PlaceholderAPI
-  - PlotSquared
 commands:
   generatoradmin:
     usage: "/generatoradmin <SubCommand>"

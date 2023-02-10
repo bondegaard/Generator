@@ -2,7 +2,6 @@ package dk.bondegaard.generator.api;
 
 import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.api.placeholderapi.PlaceholderAPI;
-import dk.bondegaard.generator.api.plotsquared.PlotSquaredAPI;
 import dk.bondegaard.generator.api.skript.SkriptAPI;
 import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.features.SellInventory;
@@ -31,7 +30,6 @@ public class GeneratorAPI {
 
         if (Bukkit.getPluginManager().getPlugin("Skript") != null) new SkriptAPI(this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) new PlaceholderAPI(this);
-        if (Bukkit.getPluginManager().getPlugin("PlotSquared") != null) new PlotSquaredAPI(this);
     }
 
     /**
