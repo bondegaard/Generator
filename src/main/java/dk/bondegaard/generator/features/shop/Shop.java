@@ -23,7 +23,7 @@ public class Shop extends GUI {
 
     private Map<Integer, Pair<GeneratorType, Double>> slotToItem = new HashMap<>();
     public Shop(Player player, ShopHandler handler) {
-        super("", 6, player);
+        super(Lang.SHOP_GUI_TITLE, 6, player);
         for (String key : handler.getShopConfig().getConfigurationSection("gui-layout").getKeys(false)) {
             // Basic Variables
             Integer slot = 0;

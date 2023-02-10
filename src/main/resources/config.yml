@@ -1,6 +1,5 @@
-# ############## #
-# DEFAULT VALUES #
-# ############## #
+# !!!! DO NOT TOUCH !!!
+version: "1.0.1"
 
 # Max gens slots a player will have when
 # joining the server for the first time

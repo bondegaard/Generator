@@ -11,6 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.logging.Level;
 
 public final class Main extends JavaPlugin {
@@ -27,7 +30,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
+        handleConfigVersion();
         instance = this;
 
         if (!setupEconomy()) {
@@ -73,5 +76,40 @@ public final class Main extends JavaPlugin {
         if (rsp == null) return false;
         this.economy = rsp.getProvider();
         return this.economy != null;
+    }
+
+    private void handleConfigVersion() {
+        // Check config versions
+        saveDefaultConfig();
+        if (!getConfig().contains("version")) {
+            getConfig().set("version", getDescription().getVersion());
+            saveConfig();
+            return;
+        }
+        String configVersion = getConfig().getString("version");
+        if (configVersion.equalsIgnoreCase(getDescription().getVersion())) return;
+
+        // # # # # # # # # # # # # # # # # # # # #
+        // # CONFIG IS OLD AND NEEDS TO BE FIXED #
+        // # # # # # # # # # # # # # # # # # # # #
+        getLogger().log(Level.SEVERE, "---------) GENERATOR WARNING (---------");
+        getLogger().log(Level.SEVERE, " Old config version detected...");
+        getLogger().log(Level.SEVERE, " Switching too default newer version!");
+        getLogger().log(Level.SEVERE, "...");
+        try {
+            // Rename old config file and put in new
+            File dataFile = new File(getDataFolder(), "config.yml");
+            //    dataFile.renameTo(new File(getDataFolder(), "config-old.yml"));
+            Files.move(dataFile.toPath(), new File(getDataFolder(), "config-old.yml").toPath());
+            getLogger().log(Level.SEVERE, "Config successfully updated!");
+            saveResource("config.yml", true);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "Config couldn't be updated... using old config!");
+            saveDefaultConfig();
+        }
+        getLogger().log(Level.SEVERE, "---------) GENERATOR WARNING (---------");
+        // # # # # # # # # # # # # # # # # # # # #
+        // # CONFIG IS OLD AND NEEDS TO BE FIXED #
+        // # # # # # # # # # # # # # # # # # # # #
     }
 }

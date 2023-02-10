@@ -33,6 +33,7 @@ public class Lang {
     public static String SELL_FAIL;
 
     // SHOP
+    public static String SHOP_GUI_TITLE;
     public static String SHOP_BUY_SUCCESS;
     public static String SHOP_BUY_FAIL;
     public static String SHOP_FULL_INVENTORY;
@@ -80,6 +81,7 @@ public class Lang {
         SELL_FAIL = getString(lang, "sell.sell-fail", "Du har ikke noget at sælge!");
 
         // Shop
+        SHOP_GUI_TITLE = getString(lang, "shop.gui-title", "&b&lGenerator Shop");
         SHOP_BUY_SUCCESS = getString(lang, "shop.buy-success", "Du købte en %TYPE% generator for %PRICE%$");
         SHOP_BUY_FAIL = getString(lang, "shop.buy-fail", "Du mangler %NEEDED%$ købe denne generator!");
         SHOP_FULL_INVENTORY = getString(lang, "shop.full-inventory", "Du har ikke nok plads i din inventory til dette!");

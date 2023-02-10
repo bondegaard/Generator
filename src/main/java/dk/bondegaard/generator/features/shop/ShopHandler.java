@@ -32,7 +32,7 @@ public class ShopHandler {
         enabled = Main.getInstance().getConfig().contains("shop-enabled") && Main.getInstance().getConfig().getBoolean("shop-enabled");
         if (!enabled) return;
         //Load/Create config file
-        File dataFile = new File("shop.yml");
+        File dataFile = new File(Main.getInstance().getDataFolder(), "shop.yml");
         if (!dataFile.exists()) try {
             dataFile.createNewFile();
         } catch (IOException ex) {
