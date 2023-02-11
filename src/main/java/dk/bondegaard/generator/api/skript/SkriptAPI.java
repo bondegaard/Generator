@@ -44,6 +44,7 @@ public class SkriptAPI {
         Skript.registerEffect(RemoveOfflineplayerGen.class, "remove gen for %offline-players% at %location%");
         Skript.registerEffect(RemoveOfflineplayerGensPickup.class, "pickup gen for %offline-players% at %location% to %player%");
         Skript.registerEffect(OpenShop.class, "open shop for %players%");
+        Skript.registerEffect(GetSellstick.class, "give %players% sellstick whit multi %number%");
     }
 }
 

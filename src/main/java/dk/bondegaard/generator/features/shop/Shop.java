@@ -72,12 +72,12 @@ public class Shop extends GUI {
             return;
         }
         double playerBalance = econ.getBalance(player);
-        if (shopItem.getRight()-playerBalance < 0) {
+        if (playerBalance-shopItem.getRight() < 0) {
             PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SHOP_BUY_FAIL.replace("%NEEDED%", (shopItem.getRight()- playerBalance) + ""));
             return;
         }
         econ.withdrawPlayer(player, shopItem.getRight());
-        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SHOP_BUY_SUCCESS.replace("%%TYPE%%", shopItem.getLeft().getName()).replace("%PRICE%", shopItem.getRight()+""));
+        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SHOP_BUY_SUCCESS.replace("%TYPE%", shopItem.getLeft().getName()).replace("%PRICE%", shopItem.getRight()+""));
         Pickup.giveItem(player, shopItem.getLeft().getGeneratorItem());
     }
 }

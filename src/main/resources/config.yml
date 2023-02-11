@@ -1,5 +1,5 @@
 # !!!! DO NOT TOUCH !!!
-version: "1.0.1"
+version: "1.0.3"
 
 # Max gens slots a player will have when
 # joining the server for the first time
@@ -10,8 +10,15 @@ max-gens: 20
 # (Will be default value if generator or player does not have an individual value set)
 time-inbetween: 5000
 
+# Drop gen items naturally or not naturally
+# (Naturally will drop more 'random')
+drop-gen-naturally: true
+
 # Should the plugins shop be loaded?
 shop-enabled: false
+
+# Should the plugins sellsticks be loaded?
+sellstick-enabled: false
 
 
 generators:

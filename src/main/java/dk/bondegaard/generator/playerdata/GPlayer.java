@@ -124,6 +124,7 @@ public class GPlayer {
                     // Load Generator stats
                     Location loc = Utils.stringToLocation(gen.getString("location"));
                     GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(gen.getString("gen-name"));
+                    if (generatorType == null) continue;
                     long timeBetween = gen.contains("time-between-drop") ? gen.getLong("time-between-drop") : Main.getInstance().getConfig().getLong("time-inbetween");
                     long lastDrop = gen.contains("last-drop") ? gen.getLong("last-drop") : -1;
 

@@ -1,6 +1,8 @@
 package dk.bondegaard.generator.commands;
 
 import dk.bondegaard.generator.Main;
+import dk.bondegaard.generator.features.sellstick.SellStickHandler;
+import dk.bondegaard.generator.features.shop.ShopHandler;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.utils.PlayerUtils;
@@ -12,6 +14,10 @@ import org.bukkit.entity.Player;
 public class AdminCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!sender.hasPermission("generator.admin")) {
+            PlayerUtils.sendMessage(sender, Lang.PREFIX+Lang.PERMISSION_DENY);
+            return true;
+        }
         if (args.length < 1) {
             PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin reload &fReload plugin'et");
             PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin info &fFå information omkring dette plugin'et.");
@@ -29,7 +35,9 @@ public class AdminCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("reload")) {
             Main.getInstance().reloadConfig();
-            Main.getInstance().getGeneratorHandler().loadGeneratorTypes();
+            Main.getInstance().getGeneratorHandler().reload();
+            SellStickHandler.getInstance().load();
+            ShopHandler.getInstance().load();
             Lang.reload();
             PlayerUtils.sendMessage(sender, Lang.PREFIX + "&eGenerator plugin reloaded!");
             return true;

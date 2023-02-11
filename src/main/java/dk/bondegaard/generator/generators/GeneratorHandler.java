@@ -26,6 +26,8 @@ public class GeneratorHandler {
 
     private final List<GeneratorType> generatorTypes = new ArrayList<>();
 
+    private boolean dropItemsNaturally = true;
+
     public GeneratorHandler() {
         loadGeneratorTypes();
         loop();
@@ -33,6 +35,11 @@ public class GeneratorHandler {
         new GeneratorListener(this);
 
         loadGeneratorBlockData();
+    }
+
+    public void reload() {
+        dropItemsNaturally = !Main.getInstance().getConfig().contains("drop-gen-naturally") || Main.getInstance().getConfig().getBoolean("drop-gen-naturally");
+        loadGeneratorTypes();
     }
 
     public void loadGeneratorTypes() {
@@ -134,7 +141,8 @@ public class GeneratorHandler {
                     if (!generator.getLocation().getChunk().isLoaded()) continue;
                     if (generator.getLocation().getBlock().getType() == Material.AIR) continue;
                     for (GeneratorDropItem drop : generator.getGeneratorType().getGeneratorDrops()) {
-                        generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop.getItem());
+                        if (dropItemsNaturally) generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop.getItem());
+                        else generator.getLocation().getWorld().dropItem(generator.getLocation().clone().add(0, 1, 0), drop.getItem());
                     }
                     generator.setLastDrop(System.currentTimeMillis());
                 }

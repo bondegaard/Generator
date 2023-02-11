@@ -2,6 +2,7 @@ package dk.bondegaard.generator;
 
 import dk.bondegaard.generator.api.GeneratorAPI;
 import dk.bondegaard.generator.commands.AdminCommand;
+import dk.bondegaard.generator.features.sellstick.SellStickHandler;
 import dk.bondegaard.generator.features.shop.ShopHandler;
 import dk.bondegaard.generator.generators.GeneratorHandler;
 import dk.bondegaard.generator.languages.Lang;
@@ -54,6 +55,7 @@ public final class Main extends JavaPlugin {
 
     private void loadFeatures() {
         new ShopHandler();
+        new SellStickHandler();
     }
 
     @Override

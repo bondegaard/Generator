@@ -8,6 +8,7 @@ import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class SellInventory {
@@ -43,6 +44,22 @@ public class SellInventory {
         player.updateInventory();
         econ.depositPlayer(player, amount);
         PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_SUCCESS.replace("%TOTAL%", amount + "").replace("%MULTIPLIER%", multiplier + ""));
+    }
+
+    public static double sellInventory(Inventory inventory, double multiplier) {
+
+        double amount = 0.0;
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            ItemStack item = inventory.getItem(slot);
+            if (item == null || item.getType() == Material.AIR) continue;
+            if (item.getAmount() < 1 || item.getAmount() > 64) continue;
+            GeneratorDropItem generatorDropItem = getDropItem(item);
+            if (generatorDropItem == null || generatorDropItem.getSellPrice() <= 0) continue;
+            amount += item.getAmount() * generatorDropItem.getSellPrice();
+            inventory.clear(slot);
+        }
+        amount *= multiplier;
+        return amount;
     }
 
     private static GeneratorDropItem getDropItem(ItemStack item) {

@@ -114,8 +114,14 @@ public class GeneratorListener implements Listener {
             economy.withdrawPlayer(player, generator.getGeneratorType().getUpgradePrice());
 
             GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(generator.getGeneratorType().getNextGeneratorName());
+
             event.getClickedBlock().setType(generatorType.getGeneratorItem().getType());
+            event.getClickedBlock().setData((byte) generatorType.getGeneratorItem().getDurability());
+
+
             generator.setGeneratorType(generatorType);
+
+            if (!event.getClickedBlock().hasMetadata("generator")) event.getClickedBlock().setMetadata("generator", new FixedMetadataValue(Main.getInstance(), player.getUniqueId().toString()));
 
             PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_UPGRADED_SUCCESS.replace("%TYPE%", generator.getGeneratorType().getNextGeneratorName()));
             return;

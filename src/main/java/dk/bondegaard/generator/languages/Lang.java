@@ -39,6 +39,9 @@ public class Lang {
     public static String SHOP_FULL_INVENTORY;
     public static List<String> SHOP_ITEM_LORE;
 
+    // SELL STICK
+    public static String SELLSTICK_SELL_MESSAGE;
+    public static String SELLSTICK_SELL_NOTHING;
 
 
     public Lang() {
@@ -87,6 +90,9 @@ public class Lang {
         SHOP_FULL_INVENTORY = getString(lang, "shop.full-inventory", "Du har ikke nok plads i din inventory til dette!");
         SHOP_ITEM_LORE = getStringList(lang, "shop.shop-item-lore", Arrays.asList("&bPris: &f%PRICE%$", "", "&b&nTryk for at købe!"));
 
+        // Sell Stick
+        SELLSTICK_SELL_MESSAGE = getString(lang, "sell-stick.sell-message", "Du solgte kisten for %amount%$");
+        SELLSTICK_SELL_NOTHING = getString(lang, "sell-stick.empty-chest-message", "Der var ikke noget at sælge i kisten!");
 
         try {
             lang.save(dataFile);

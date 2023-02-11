@@ -5,6 +5,7 @@ import dk.bondegaard.generator.api.placeholderapi.PlaceholderAPI;
 import dk.bondegaard.generator.api.skript.SkriptAPI;
 import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.features.SellInventory;
+import dk.bondegaard.generator.features.sellstick.SellStickHandler;
 import dk.bondegaard.generator.features.shop.ShopHandler;
 import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
@@ -162,5 +163,18 @@ public class GeneratorAPI {
     public void openShop(Player player) {
         if (player == null) return;
         ShopHandler.openShop(player);
+    }
+
+    /**
+     * Give a player a sell stick if the sell stick is registered in the config
+     * (Only works if feature is turned on)
+     * @param player The player that will get the sell stick
+     * @param multi The multi that the sell stick will have
+     */
+    public void getSellStick(Player player, double multi) {
+        if (player == null) return;
+        ItemStack item = SellStickHandler.getInstance().getSellStick(multi);
+        if (item == null) return;
+        Pickup.giveItem(player, item);
     }
 }
