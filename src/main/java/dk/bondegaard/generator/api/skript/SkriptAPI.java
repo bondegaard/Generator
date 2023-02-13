@@ -42,7 +42,7 @@ public class SkriptAPI {
         Skript.registerEffect(GetGeneratorItem.class, "give %players% generator %string%");
         Skript.registerEffect(PickupGens.class, "pickup gens for %players%");
         Skript.registerEffect(RemoveOfflineplayerGen.class, "remove gen for %offline-players% at %location%");
-        Skript.registerEffect(RemoveOfflineplayerGensPickup.class, "pickup gen for %offline-players% at %location% to %player%");
+        Skript.registerEffect(RemoveOfflineplayerGensPickup.class, "pickup gen for %offline-player% at %location% to %player%");
         Skript.registerEffect(OpenShop.class, "open shop for %players%");
         Skript.registerEffect(GetSellstick.class, "give %players% sellstick whit multi %number%");
     }
