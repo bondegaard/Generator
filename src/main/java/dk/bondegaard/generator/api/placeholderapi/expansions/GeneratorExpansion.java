@@ -52,6 +52,11 @@ public class GeneratorExpansion extends PlaceholderExpansion {
             if (gPlayer == null) return Lang.NOT_LOADED;
             return String.valueOf(gPlayer.getExp());
         }
+        if (params.equalsIgnoreCase("multiplier")) {
+            GPlayer gPlayer = PlayerDataHandler.getGPlayer((Player) player);
+            if (gPlayer == null) return Lang.NOT_LOADED;
+            return String.valueOf(gPlayer.getMultiplier());
+        }
 
         return null;
     }

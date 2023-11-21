@@ -3,6 +3,8 @@ package dk.bondegaard.generator.features.sellstick;
 import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.features.SellInventory;
 import dk.bondegaard.generator.languages.Lang;
+import dk.bondegaard.generator.playerdata.GPlayer;
+import dk.bondegaard.generator.playerdata.PlayerDataHandler;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -37,10 +39,14 @@ public class SellStickListener implements Listener {
 
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null || !(clickedBlock.getType() == Material.CHEST || clickedBlock.getType() == Material.TRAPPED_CHEST)) return;
+        GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(event.getPlayer());
 
         Inventory inv = ((Chest) clickedBlock.getState()).getInventory();
-        double sellMulti = handler.getMulti(heldItem);
-        if (sellMulti <=0) return;
+        double sellStickMultiMulti = handler.getSellStickMulti(heldItem);
+        double playerMulti = gPlayer.getMultiplier();
+        double sellMulti = sellStickMultiMulti + playerMulti;
+
+        if (sellMulti <=0 || sellMulti-1 > Double.MAX_VALUE) return;
 
         event.setCancelled(true);
         Economy econ = Main.getInstance().getEconomy();

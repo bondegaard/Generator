@@ -36,6 +36,8 @@ public class GPlayer {
 
     private long exp = 0;
 
+    private double multiplier = 0.0;
+
 
     // Constructor
     public GPlayer(OfflinePlayer player) {
@@ -76,6 +78,7 @@ public class GPlayer {
         data.set("prestige", prestige);
         data.set("level", level);
         data.set("exp", exp);
+        data.set("multiplier", multiplier);
 
         // save generators and clear old
         int i = 1;
@@ -112,6 +115,7 @@ public class GPlayer {
         if (!data.contains("prestige")) data.set("prestige", 0L);
         if (!data.contains("level")) data.set("level", 1L);
         if (!data.contains("exp")) data.set("exp", 0L);
+        if (!data.contains("multiplier")) data.set("multiplier", 0.0);
     }
 
     private void loadPlayerStats() {
@@ -120,6 +124,7 @@ public class GPlayer {
         prestige = data.getLong("prestige");
         level = data.getLong("level");
         exp = data.getLong("exp");
+        multiplier = data.getDouble("multiplier");
         // Load gens from player
         try {
             for (String key : data.getConfigurationSection("generators").getKeys(false)) {
@@ -153,19 +158,6 @@ public class GPlayer {
 
     public void removeGenerator(Generator generator) {
         generators.remove(generator);
-    }
-
-
-    public long getLastSave() {
-        return lastSave;
-    }
-
-    public List<Generator> getGenerators() {
-        return generators;
-    }
-
-    public int getMaxGens() {
-        return maxGens;
     }
 
     public void setMaxGens(int maxGens) {

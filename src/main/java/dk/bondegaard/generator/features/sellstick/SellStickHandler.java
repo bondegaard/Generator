@@ -64,7 +64,7 @@ public class SellStickHandler {
         }
         new SellStickListener(this);
     }
-    public double getMulti(ItemStack itemStack) {
+    public double getSellStickMulti(ItemStack itemStack) {
         for (Map.Entry<ItemStack, Double> stick: sellStick.entrySet()) {
             if (stick.getKey().isSimilar(itemStack))
                 return stick.getValue();

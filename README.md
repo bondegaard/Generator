@@ -1,12 +1,15 @@
+<a name="readme-top"></a>
 # Generator
+<br />
 
 ## Info
 
-Generator is a plugin made to make it easier for server owners to make their own 'generator servers' which is a very specific type of minecraft server, mostly seen on a server with the name of [SuperAwesome](SuperAwesome.dk).
+Generator is a plugin made to make it easier for server owners to make their own 'generator servers' which is a very specific type of minecraft server, mostly seen on a server with the name of SuperAwesome.
 
 This plugin is not meant to be used alone and another spigot plugin or Skript-Lang has to be used to support this project. This is because this project has a lot of small features that is meant to be run by the server owners own code.
+<br />
 
-How to include the API with Maven:
+#### How to include the API with Maven:
 ```xml
 <repositories>
     <repository>
@@ -18,21 +21,25 @@ How to include the API with Maven:
     <dependency>
         <groupId>com.github.bondegaard</groupId>
         <artifactId>Generator</artifactId>
-        <version>1.1.3</version>
+        <version>1.1.4</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-How to include the API with Gradle:
+
+#### How to include the API with Gradle:
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compileOnly 'com.github.bondegaard:Generator:1.1.3'
+    compileOnly 'com.github.bondegaard:Generator:1.1.4'
 }
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
 
 ## License
 ```txt
@@ -56,6 +63,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
+
 ## Building
 
 To build Geneator, you need JDK 8 or higher installed on your system.
@@ -65,9 +75,14 @@ Clone this repository, then run the following command:
 * On Linux or macOS: `./gradlew build`
 * On Windows: `gradlew build`
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
 
 ## Implementing Generator
 See example here of how to use the Generator plugins API
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
 
 ### Using a plugin:
 
@@ -114,6 +129,9 @@ public class ExamplePlugin extends JavaPlugin {
 
 }
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
+
 ### Using a Skript-Lang:
 
 ```skript-lang
@@ -141,39 +159,49 @@ command /test3 <number>:
         reset generator prestige for player
         set player generator prestige to arg-1
 
-# Change players max gen amount        
+# Change players multiplier amount
 command /test4 <number>:
+    trigger:
+        add arg-1 multiplier to player
+        remove arg-1 multiplier from player
+        reset multiplier for player
+        set player multiplier to arg-1
+
+# Change players max gen amount        
+command /test5 <number>:
     trigger:
         set maxgens for player to arg-1
         add maxgens for player to arg-1
         remove maxgens for player to arg-1
 
 # Sell Generators 
-command /test5 <number>:
+command /test6 <number>:
     trigger:
         sell generator drops for player
         sellgenerator drops with multi arg-1 for player
 
 # Get a generator
-command /test6 <string>:
+command /test7 <string>:
     trigger:
         give player generator arg-1
 
 # Pickup a players gens
-command /test7 <player>:
+command /test8 <player>:
     trigger:
         pickup gens for arg-1
 
 # Open the shop GUI 
-command /test8:
+command /test9:
     trigger:
         open shop for player     
 
 # Get a sell stick defined in the config
-command /test9 <number>:
+command /test10 <number>:
     trigger:
         give player sellstick whit multi arg-1 
                  
 # Other things you can do:
-# - pickup gen for %offline-player% at %location% to %player%
+# - pickup gen for %offlineplayer% at %location% to %player%
 ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />

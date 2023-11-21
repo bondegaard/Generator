@@ -4,6 +4,8 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.generators.objects.GeneratorDropItem;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
+import dk.bondegaard.generator.playerdata.GPlayer;
+import dk.bondegaard.generator.playerdata.PlayerDataHandler;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -15,7 +17,8 @@ import org.bukkit.inventory.ItemStack;
 public class SellInventory {
 
     public static void sellInventory(Player player) {
-        sellInventory(player, 1.0);
+        GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(player);
+        sellInventory(player, 1.0+gPlayer.getMultiplier());
     }
 
     public static void sellInventory(Player player, double multiplier) {
