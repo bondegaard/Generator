@@ -78,15 +78,4 @@ public class GeneratorAdminCommand extends BaseCommand {
         PlayerUtils.sendMessage(player, recieveMessage);
         player.getInventory().addItem(generatorType.getGeneratorItem());
     }
-
-    @SubCommand(value = "debug")
-    public void debug(Player player) {
-        GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(player);
-
-        PlayerUtils.sendMessage(player, "EXP: " + gPlayer.getExp());
-        PlayerUtils.sendMessage(player, "LEVEL: " + gPlayer.getLevel());
-        PlayerUtils.sendMessage(player, "PRESTIGE: " + gPlayer.getPrestige());
-        PlayerUtils.sendMessage(player, "MAX GENS: " + gPlayer.getMaxGens());
-        PlayerUtils.sendMessage(player, "DATA: " + gPlayer.getData().toString());
-    }
 }
