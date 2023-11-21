@@ -6,7 +6,9 @@ import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
+import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
+import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -42,17 +44,20 @@ public class GeneratorListener implements Listener {
             if (!generatorType.getGeneratorItem().isSimilar(item)) continue;
             GPlayer gPlayer = PlayerDataHandler.getGPlayer(player);
             if (gPlayer.getMaxGens() <= gPlayer.getGenerators().size()) {
-                PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_MAX.replace("GENS_MAX", gPlayer.getMaxGens() + "").replace("%PLACED%", gPlayer.getGenerators().size() + "").replace("%MAX%", gPlayer.getMaxGens() + ""));
+                PlaceholderString genMaxMessage = new PlaceholderString(Lang.PREFIX + Lang.GENS_MAX, "%PLACED%","%MAX%", "%GENS_MAX%")
+                        .placeholderValues(String.valueOf(gPlayer.getGenerators().size()), String.valueOf(gPlayer.getMaxGens()), String.valueOf(gPlayer.getMaxGens()));
+                PlayerUtils.sendMessage(player, genMaxMessage);
                 event.setCancelled(true);
                 return;
             }
             Generator generator = new Generator(player.getUniqueId().toString(), event.getBlockPlaced().getLocation(), generatorType, Main.getInstance().getConfig().getLong("time-inbetween"));
             gPlayer.getGenerators().add(generator);
             Main.getInstance().getGeneratorHandler().addActiveGenerator(generator);
-            PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_PLACE
-                    .replace("%TYPE%", generatorType.getName())
-                    .replace("%PLACED%", gPlayer.getGenerators().size() + "")
-                    .replace("%MAX%", gPlayer.getMaxGens() + ""));
+
+            PlaceholderString genPlaceMessage = new PlaceholderString(Lang.PREFIX + Lang.GENS_PLACE, "%TYPE%", "%PLACED%", "%MAX%")
+                    .placeholderValues(generatorType.getName(), String.valueOf(gPlayer.getGenerators().size()), String.valueOf(gPlayer.getMaxGens()));
+            PlayerUtils.sendMessage(player, genPlaceMessage);
+
 
             gPlayer.save();
             event.getBlockPlaced().setMetadata("generator", new FixedMetadataValue(Main.getInstance(), player.getUniqueId().toString()));
@@ -99,8 +104,9 @@ public class GeneratorListener implements Listener {
             // Get Economy plugin and make sure it is valid
             Economy economy = Main.getInstance().getEconomy();
             if (economy == null) {
-                PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.ERROR.replace("%ERROR%", "Kunne ikke bruge økonomi plugin."));
-                return;
+                PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                        .placeholderValues(Lang.NO_ECONOMY);
+                PlayerUtils.sendMessage(event.getPlayer(), errorMessage);
             }
 
             // Check player Balance
@@ -123,7 +129,9 @@ public class GeneratorListener implements Listener {
 
             if (!event.getClickedBlock().hasMetadata("generator")) event.getClickedBlock().setMetadata("generator", new FixedMetadataValue(Main.getInstance(), player.getUniqueId().toString()));
 
-            PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_UPGRADED_SUCCESS.replace("%TYPE%", generator.getGeneratorType().getNextGeneratorName()));
+            PlaceholderString genUpgradeMessage = new PlaceholderString(Lang.PREFIX + Lang.GENS_UPGRADED_SUCCESS, "%TYPE%")
+                    .placeholderValues(generator.getGeneratorType().getNextGeneratorName());
+            PlayerUtils.sendMessage(player, genUpgradeMessage);
             return;
         }
         // PICKUP GENERATOR

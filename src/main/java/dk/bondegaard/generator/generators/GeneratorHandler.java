@@ -6,6 +6,7 @@ import dk.bondegaard.generator.generators.objects.GeneratorDropItem;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.ItemUtil;
 import dk.bondegaard.generator.utils.Utils;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+@Getter
 public class GeneratorHandler {
 
     private final List<Generator> activeGenerators = new ArrayList<>();
@@ -140,6 +142,12 @@ public class GeneratorHandler {
                         continue;
                     if (!generator.getLocation().getChunk().isLoaded()) continue;
                     if (generator.getLocation().getBlock().getType() == Material.AIR) continue;
+
+                    // Check for max entities in chunk
+                    if (Main.getInstance().getConfig().getBoolean("max-chunk-entities.enabled")) {
+                        long maxEntities = Main.getInstance().getConfig().getLong("max-chunk-entities.max");
+                        if (generator.getLocation().getChunk().getEntities().length >= maxEntities) continue;
+                    }
                     for (GeneratorDropItem drop : generator.getGeneratorType().getGeneratorDrops()) {
                         if (dropItemsNaturally) generator.getLocation().getWorld().dropItemNaturally(generator.getLocation().clone().add(0, 0.5, 0), drop.getItem());
                         else generator.getLocation().getWorld().dropItem(generator.getLocation().clone().add(0, 1, 0), drop.getItem());
@@ -148,15 +156,6 @@ public class GeneratorHandler {
                 }
             }
         }, 10L, 10L);
-    }
-
-
-    public List<Generator> getActiveGenerators() {
-        return activeGenerators;
-    }
-
-    public List<GeneratorType> getGeneratorTypes() {
-        return generatorTypes;
     }
 
 

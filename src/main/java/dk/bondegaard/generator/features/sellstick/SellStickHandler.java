@@ -1,21 +1,16 @@
 package dk.bondegaard.generator.features.sellstick;
 
 import dk.bondegaard.generator.Main;
-import dk.bondegaard.generator.features.shop.Shop;
-import dk.bondegaard.generator.features.shop.ShopHandler;
-import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.ItemUtil;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SellStickHandler {
@@ -47,9 +42,14 @@ public class SellStickHandler {
         // Loads the file as a bukkit config
         this.shopConfig = YamlConfiguration.loadConfiguration(dataFile);
         if (!shopConfig.contains("sticks")) {
-            shopConfig.set("sticks.1.sell-boost", 1.5);
+            // 1x Boost
+            shopConfig.set("sticks.1.sell-boost", 1);
             shopConfig.set("sticks.1.item.type", "280:0");
-            shopConfig.set("sticks.1.item.name", "&b&lSellStick &f&l1.5X");
+            shopConfig.set("sticks.1.item.name", "&b&lSellStick &f&l1X");
+            // 2x Boost
+            shopConfig.set("sticks.2.sell-boost", 1.5);
+            shopConfig.set("sticks.2.item.type", "280:0");
+            shopConfig.set("sticks.2.item.name", "&b&lSellStick &f&l1.5X");
             try {
                 shopConfig.save(dataFile);
             } catch (IOException ignored) {

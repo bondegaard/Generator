@@ -3,6 +3,7 @@ package dk.bondegaard.generator.features.sellstick;
 import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.features.SellInventory;
 import dk.bondegaard.generator.languages.Lang;
+import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -43,12 +44,20 @@ public class SellStickListener implements Listener {
 
         event.setCancelled(true);
         Economy econ = Main.getInstance().getEconomy();
-        if (econ == null) return;
+        if (econ == null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.NO_ECONOMY);
+            PlayerUtils.sendMessage(event.getPlayer(), errorMessage);
+            return;
+        }
 
         double amount = SellInventory.sellInventory(inv, sellMulti);
         if (amount > 0) {
             econ.depositPlayer(event.getPlayer(), amount);
-            PlayerUtils.sendMessage(event.getPlayer(), Lang.PREFIX+Lang.SELLSTICK_SELL_MESSAGE.replace("%amount%", amount+""));
+            PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX+Lang.SELLSTICK_SELL_MESSAGE, "%amount%")
+                    .placeholderValues(String.valueOf(amount));
+
+            PlayerUtils.sendMessage(event.getPlayer(), sellMessage);
         } else {
             PlayerUtils.sendMessage(event.getPlayer(), Lang.PREFIX+Lang.SELLSTICK_SELL_NOTHING);
         }

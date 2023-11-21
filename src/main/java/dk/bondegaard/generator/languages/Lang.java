@@ -14,10 +14,22 @@ import java.util.logging.Level;
 
 public class Lang {
     private static final Main instance = Main.getInstance();
+
+
     // Default Messages
     public static String PREFIX;
     public static String PERMISSION_DENY;
     public static String ERROR;
+
+    // Command messages
+    public static String CMD_UNKNOWN_SUB_COMMAND;
+    public static String CMD_INVALID_ARGUMENT;
+    public static String CMD_NOT_ENOUGH_ARGS;
+    public static String CMD_TOO_MANY_ARGS;
+    public static String CMD_NO_PERMISSION;
+    public static String CMD_CONSOLE_ONLY;
+    public static String CMD_PLAYER_ONLY;
+
     // Generator messages
     public static String GENS_MAX;
     public static String GENS_PLACE;
@@ -27,6 +39,7 @@ public class Lang {
     public static String GENS_UPGRADED_NO_UPGRADE;
     public static String GENS_REMOVED;
     public static String GENS_NOT_YOURS;
+    public static String GENS_RECEIVE;
 
     // SELL
     public static String SELL_SUCCESS;
@@ -43,6 +56,12 @@ public class Lang {
     public static String SELLSTICK_SELL_MESSAGE;
     public static String SELLSTICK_SELL_NOTHING;
 
+    // Error
+    public static String NO_ECONOMY;
+    public static String INVALID_GEN_NAME;
+
+    // Placeholders
+    public static String NOT_LOADED;
 
     public Lang() {
         loadLangConfig();
@@ -68,6 +87,15 @@ public class Lang {
         PERMISSION_DENY = getString(lang, "permission-denied", "&cDu har ikke adgang til dette!");
         ERROR = getString(lang, "error-message", "Der skete en fejl: %ERROR%");
 
+        // Command messages
+        CMD_UNKNOWN_SUB_COMMAND = getString(lang, "cmd-unknown-sub-command", "&7Kommandoen &c/%FULL_COMMAND% &7findes ikke.");
+        CMD_INVALID_ARGUMENT = getString(lang, "cmd-invalid-argument", "&7Ugyldigt argument, prøv et andet.");
+        CMD_NOT_ENOUGH_ARGS = getString(lang, "cmd-not-enough-args", "&7Kommandoen har for lidt argumenter.");
+        CMD_TOO_MANY_ARGS = getString(lang, "cmd-too-many-args", "&7Kommandoen har for mange argumenter.");
+        CMD_NO_PERMISSION = getString(lang, "cmd-no-permission", "&7Du har ikke adgang til at bruge Kommandoen.");
+        CMD_CONSOLE_ONLY = getString(lang, "cmd-console-only", "&7Kommandoen kan kun blive brugt af console.");
+        CMD_PLAYER_ONLY = getString(lang, "cmd-player-only", "&7Kommandoen kan kun blive brugt af spillere.");
+
         // Generator messages
         GENS_MAX = getString(lang, "generator.max-placed-message", "Du kan ikke placere flere generators. (%PLACED%/%MAX%)");
         GENS_PLACE = getString(lang, "generator.place-message", "Du placerede en %TYPE% generator. (%PLACED%/%MAX%)");
@@ -79,8 +107,10 @@ public class Lang {
         GENS_REMOVED = getString(lang, "generator.remove-success", "Du har fjernet din generator");
         GENS_NOT_YOURS = getString(lang, "generator.wrong-owner", "Du ejer ikke denne generator");
 
+        GENS_RECEIVE = getString(lang, "generator.reveive", "Du modtag en %TYPE% generator!");
+
         // Sell
-        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%! (%MULTIPLIER%x)");
+        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%$ (%MULTIPLIER%x)");
         SELL_FAIL = getString(lang, "sell.sell-fail", "Du har ikke noget at sælge!");
 
         // Shop
@@ -93,6 +123,13 @@ public class Lang {
         // Sell Stick
         SELLSTICK_SELL_MESSAGE = getString(lang, "sell-stick.sell-message", "Du solgte kisten for %amount%$");
         SELLSTICK_SELL_NOTHING = getString(lang, "sell-stick.empty-chest-message", "Der var ikke noget at sælge i kisten!");
+
+        // Error
+        NO_ECONOMY = getString(lang, "no-economy-found", "Økonomi ikke opsat!");
+        INVALID_GEN_NAME = getString(lang, "invalid-gen-name", "&cUgyldig generator navn!");
+
+        // Placeholders
+        NOT_LOADED = getString(lang, "not-loaded", "Not Loaded...!");
 
         try {
             lang.save(dataFile);

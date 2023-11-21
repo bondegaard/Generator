@@ -4,6 +4,9 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+@Getter @Setter
 public class GPlayer {
 
     // Variables
@@ -23,6 +27,7 @@ public class GPlayer {
     private final List<Generator> generators = new ArrayList<>();
     private FileConfiguration data;
     private long lastSave = System.currentTimeMillis() - 10000;
+
     private int maxGens = 20;
 
     private long prestige = 0;
@@ -103,10 +108,10 @@ public class GPlayer {
     private void setDefaultValues(OfflinePlayer player, FileConfiguration data) {
         data.set("username", player.getName());
         if (!data.contains("generators")) data.set("generators", new ArrayList<>());
-        if (data.contains("max-gens")) data.set("max-gens", Main.getInstance().getConfig().getInt("max-gens"));
-        if (data.contains("prestige")) data.set("prestige", 0L);
-        if (data.contains("level")) data.set("level", 1L);
-        if (data.contains("exp")) data.set("exp", 0L);
+        if (!data.contains("max-gens")) data.set("max-gens", Main.getInstance().getConfig().contains("max-gens") ? Main.getInstance().getConfig().getInt("max-gens") : 20);
+        if (!data.contains("prestige")) data.set("prestige", 0L);
+        if (!data.contains("level")) data.set("level", 1L);
+        if (!data.contains("exp")) data.set("exp", 0L);
     }
 
     private void loadPlayerStats() {
@@ -175,23 +180,15 @@ public class GPlayer {
         return null;
     }
 
-    public long getPrestige() {return prestige;}
 
-    public long getLevel() {return level;}
-
-    public long getExp() {return exp;}
-
-    public void setPrestige(long prestige) {this.prestige = prestige;}
     public void addPrestige() {this.prestige++;}
     public void addPrestige(long prestige) {this.prestige+=prestige;}
     public void removePrestige() {this.prestige--;}
     public void removePrestige(long prestige) {this.prestige-=prestige;}
-    public void setLevel(long level) {this.level = level;}
     public void addLevel() {this.level++;}
     public void addLevel(long level) {this.level+=level;}
     public void removeLevel() {this.level--;}
     public void removeLevel(long level) {this.level-=level;}
-    public void setExp(long exp) {this.exp = exp;}
 
     public void addExp() {this.exp++;}
     public void addExp(long exp) {this.exp+=exp;}

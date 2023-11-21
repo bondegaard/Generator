@@ -30,8 +30,14 @@ public class GeneratorAPI {
         this.api = this;
         this.plugin = plugin;
 
-        if (Bukkit.getPluginManager().getPlugin("Skript") != null) new SkriptAPI(this);
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) new PlaceholderAPI(this);
+        if (Bukkit.getPluginManager().getPlugin("Skript") != null) {
+            plugin.getLogger().info("Using integration: Skript");
+            new SkriptAPI(this);
+        }
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            plugin.getLogger().info("Using integration: PlaceholderAPI");
+            new PlaceholderAPI(this);
+        }
     }
 
     /**

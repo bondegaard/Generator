@@ -4,6 +4,7 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.generators.objects.GeneratorDropItem;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
+import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
@@ -21,7 +22,9 @@ public class SellInventory {
         if (player == null) return;
         Economy econ = Main.getInstance().getEconomy();
         if (econ == null) {
-            PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.ERROR.replace("%ERROR%", "Økonomi ikke opsat!"));
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.NO_ECONOMY);
+            PlayerUtils.sendMessage(player, errorMessage);
             return;
         }
 
@@ -43,7 +46,9 @@ public class SellInventory {
 
         player.updateInventory();
         econ.depositPlayer(player, amount);
-        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SELL_SUCCESS.replace("%TOTAL%", amount + "").replace("%MULTIPLIER%", multiplier + ""));
+        PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX + Lang.SELL_SUCCESS, "%TOTAL%", "%MULTIPLIER%")
+                .placeholderValues(String.valueOf(amount), String.valueOf(multiplier));
+        PlayerUtils.sendMessage(player, sellMessage);
     }
 
     public static double sellInventory(Inventory inventory, double multiplier) {

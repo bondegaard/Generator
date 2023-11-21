@@ -25,7 +25,7 @@ public class ShopHandler {
     public static void openShop(Player player) {
         if (!enabled) return;
         if (player == null) return;
-        new Shop(player, instance).open(player);
+        Shop.open(instance, player);
     }
 
     public void load() {

@@ -1,6 +1,7 @@
 package dk.bondegaard.generator.playerdata;
 
 import dk.bondegaard.generator.Main;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 public class PlayerDataHandler implements Listener {
 
+    @Getter
     private static final List<GPlayer> players = new ArrayList<>();
 
     public PlayerDataHandler(Main instance) {
@@ -30,11 +32,6 @@ public class PlayerDataHandler implements Listener {
         }
     }
 
-
-    public static List<GPlayer> getPlayers() {
-        return players;
-    }
-
     public static GPlayer getGPlayer(Player player) {
         return getGPlayer(player.getUniqueId().toString());
     }
@@ -46,6 +43,7 @@ public class PlayerDataHandler implements Listener {
             return gPlayer;
         }
         GPlayer gPlayer = new GPlayer(player);
+        gPlayer.load();
         players.add(gPlayer);
         return gPlayer;
     }

@@ -1,13 +1,16 @@
 package dk.bondegaard.generator.features.shop;
 
+import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.Gui;
+import dev.triumphteam.gui.guis.PaginatedGui;
 import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
-import dk.bondegaard.generator.utils.GUI;
-import dk.bondegaard.generator.utils.Pair;
+import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import dk.bondegaard.generator.utils.StringUtil;
+import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -15,15 +18,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Shop extends GUI {
+public class Shop {
 
-    private Map<Integer, Pair<GeneratorType, Double>> slotToItem = new HashMap<>();
-    public Shop(Player player, ShopHandler handler) {
-        super(Lang.SHOP_GUI_TITLE, 6, player);
+
+    public static void open(ShopHandler handler, Player player) {
+        PaginatedGui gui = Gui.paginated()
+                .title(Component.text(StringUtil.colorize(Lang.SHOP_GUI_TITLE)))
+                .rows(6)
+                .disableAllInteractions()
+                .create();
+
         for (String key : handler.getShopConfig().getConfigurationSection("gui-layout").getKeys(false)) {
             // Basic Variables
             Integer slot = 0;
@@ -45,39 +51,42 @@ public class Shop extends GUI {
             ItemMeta itemMeta = item.getItemMeta();
             List<String> lore = new ArrayList<>();
             for (String s:Lang.SHOP_ITEM_LORE) {
-                lore.add(StringUtil.colorize(s).replace("%PRICE%", price+"").replace("%TYPE%", generatorType.getName()));
+                PlaceholderString loreMessage = new PlaceholderString(StringUtil.colorize(s), "%PRICE%", "%TYPE%")
+                        .placeholderValues(String.valueOf(price), generatorType.getName());
+                lore.add(loreMessage.parse());
             }
             itemMeta.setLore(lore);
             item.setItemMeta(itemMeta);
 
-            // Save Items
-            this.layout.put(slot, item);
-            slotToItem.put(slot, new Pair<>(generatorType, price));
-        }
-    }
+            // Insert Items
+            gui.setItem(slot, ItemBuilder.from(item).asGuiItem(event -> {
+                if (player.getInventory().firstEmpty() == -1) {
+                    PlayerUtils.sendMessage(player, Lang.PREFIX+ Lang.SHOP_FULL_INVENTORY);
+                    return;
+                }
+                Economy econ = Main.getInstance().getEconomy();
+                if (econ == null) {
+                    PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                            .placeholderValues(Lang.NO_ECONOMY);
+                    PlayerUtils.sendMessage(player, errorMessage);
+                    return;
+                }
+                double playerBalance = econ.getBalance(player);
+                if (playerBalance-price < 0) {
+                    PlaceholderString shopFailMessage = new PlaceholderString(Lang.PREFIX + Lang.SHOP_BUY_FAIL, "%NEEDED%")
+                            .placeholderValues(String.valueOf((price- playerBalance)));
+                    PlayerUtils.sendMessage(player, shopFailMessage);
+                    return;
+                }
+                econ.withdrawPlayer(player, price);
+                PlaceholderString shopSuccessMessage = new PlaceholderString(Lang.PREFIX + Lang.SHOP_BUY_SUCCESS, "%TYPE%", "%PRICE%")
+                        .placeholderValues(generatorType.getName(), String.valueOf(price));
+                PlayerUtils.sendMessage(player, shopSuccessMessage);
+                Pickup.giveItem(player, generatorType.getGeneratorItem());
 
-    @Override
-    public void click(int slot, ItemStack clickedItem, boolean shift) {
-        if (!slotToItem.containsKey(slot)) return;
-        Pair<GeneratorType, Double> shopItem = slotToItem.get(slot);
-
-        if (player.getInventory().firstEmpty() == -1) {
-            PlayerUtils.sendMessage(player, Lang.PREFIX+ Lang.SHOP_FULL_INVENTORY);
-            return;
+            }));
         }
 
-        Economy econ = Main.getInstance().getEconomy();
-        if (econ == null) {
-            PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.ERROR.replace("%ERROR%", "Økonomi ikke opsat!"));
-            return;
-        }
-        double playerBalance = econ.getBalance(player);
-        if (playerBalance-shopItem.getRight() < 0) {
-            PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SHOP_BUY_FAIL.replace("%NEEDED%", (shopItem.getRight()- playerBalance) + ""));
-            return;
-        }
-        econ.withdrawPlayer(player, shopItem.getRight());
-        PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.SHOP_BUY_SUCCESS.replace("%TYPE%", shopItem.getLeft().getName()).replace("%PRICE%", shopItem.getRight()+""));
-        Pickup.giveItem(player, shopItem.getLeft().getGeneratorItem());
+        gui.open(player);
     }
 }

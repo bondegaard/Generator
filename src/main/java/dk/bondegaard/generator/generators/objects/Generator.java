@@ -1,7 +1,10 @@
 package dk.bondegaard.generator.generators.objects;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 
+@Getter @Setter
 public class Generator {
     private final String ownerUUID;
 
@@ -21,37 +24,13 @@ public class Generator {
         this.ticksBetweenDrop = ticksBetweenDrop;
     }
 
-    public String getOwnerUUID() {
-        return ownerUUID;
-    }
-
-    public GeneratorType getGeneratorType() {
-        return generatorType;
-    }
-
-    public void setGeneratorType(GeneratorType generatorType) {
-        this.generatorType = generatorType;
-    }
-
-    public long getLastDrop() {
-        return lastDrop;
-    }
-
     public Generator setLastDrop(long lastDrop) {
         this.lastDrop = lastDrop;
         return this;
     }
 
-    public long getTicksBetweenDrop() {
-        return ticksBetweenDrop;
-    }
-
     public Generator setTicksBetweenDrop(long ticksBetweenDrop) {
         this.ticksBetweenDrop = ticksBetweenDrop;
         return this;
-    }
-
-    public Location getLocation() {
-        return location;
     }
 }

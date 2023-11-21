@@ -7,6 +7,7 @@ import ch.njol.util.Kleenean;
 import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.features.sellstick.SellStickHandler;
 import dk.bondegaard.generator.features.shop.ShopHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;

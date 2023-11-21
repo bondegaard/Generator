@@ -10,6 +10,10 @@ public final class PlayerUtils {
         sender.sendMessage(StringUtil.colorize(message));
     }
 
+    public static void sendMessage(CommandSender sender, PlaceholderString message) {
+        sender.sendMessage(StringUtil.colorize(message.parse()));
+    }
+
     public static void sendTextComponent(Player player, TextComponent textComponent) {
         textComponent.setText(StringUtil.colorize(textComponent.getText()));
         player.spigot().sendMessage(textComponent);

@@ -13,7 +13,7 @@ public final class StringUtil {
     private final static NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
 
     static {
-        numberFormat.setMaximumFractionDigits(5);
+        numberFormat.setMaximumFractionDigits(2);
     }
 
     public static String colorize(String message) {

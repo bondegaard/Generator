@@ -1,9 +1,12 @@
 package dk.bondegaard.generator.generators.objects;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+@RequiredArgsConstructor @Getter
 public class GeneratorType {
 
     private final String name;
@@ -15,32 +18,4 @@ public class GeneratorType {
     private final String nextGeneratorName;
 
     private final double upgradePrice;
-
-    public GeneratorType(String name, ItemStack generatorItem, List<GeneratorDropItem> generatorDrops, String nextGeneratorName, double upgradePrice) {
-        this.name = name;
-        this.generatorItem = generatorItem;
-        this.generatorDrops = generatorDrops;
-        this.nextGeneratorName = nextGeneratorName;
-        this.upgradePrice = upgradePrice;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ItemStack getGeneratorItem() {
-        return generatorItem;
-    }
-
-    public List<GeneratorDropItem> getGeneratorDrops() {
-        return generatorDrops;
-    }
-
-    public String getNextGeneratorName() {
-        return nextGeneratorName;
-    }
-
-    public double getUpgradePrice() {
-        return upgradePrice;
-    }
 }
