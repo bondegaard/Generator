@@ -1,13 +1,16 @@
 <a name="readme-top"></a>
-# Generator
+<!-- PROJECT LOGO -->
 <br />
+<div align="center">
+    <h3 align="center">Generator</h3>
+    <a href="https://github.com/bondegaard/Generator">Github</a>
+</div>
 
 ## Info
-
 Generator is a plugin made to make it easier for server owners to make their own 'generator servers' which is a very specific type of minecraft server, mostly seen on a server with the name of SuperAwesome.
 
 This plugin is not meant to be used alone and another spigot plugin or Skript-Lang has to be used to support this project. This is because this project has a lot of small features that is meant to be run by the server owners own code.
-<br />
+
 
 #### How to include the API with Maven:
 ```xml
