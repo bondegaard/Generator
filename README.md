@@ -18,7 +18,7 @@ How to include the API with Maven:
     <dependency>
         <groupId>com.github.bondegaard</groupId>
         <artifactId>Generator</artifactId>
-        <version>1.0.3</version>
+        <version>1.1.3</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -30,7 +30,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compileOnly 'com.github.bondegaard:Generator:1.0.3'
+    compileOnly 'com.github.bondegaard:Generator:1.1.3'
 }
 ```
 
