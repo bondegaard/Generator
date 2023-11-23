@@ -24,7 +24,7 @@ This plugin is not meant to be used alone and another spigot plugin or Skript-La
     <dependency>
         <groupId>com.github.bondegaard</groupId>
         <artifactId>Generator</artifactId>
-        <version>1.1.4</version>
+        <version>1.1.5</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -38,7 +38,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compileOnly 'com.github.bondegaard:Generator:1.1.4'
+    compileOnly 'com.github.bondegaard:Generator:1.1.5'
 }
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
