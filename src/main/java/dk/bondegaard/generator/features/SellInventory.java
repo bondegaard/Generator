@@ -16,13 +16,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class SellInventory {
 
-    public static void sellInventory(Player player) {
-        GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(player);
-        sellInventory(player, 1.0+gPlayer.getMultiplier());
-    }
 
-    public static void sellInventory(Player player, double multiplier) {
+    /**
+     * Sell a players inventory
+     * @param player Player which inventory will be sold
+     * @param bonusMultiplier Bonus multiplierr to be added on top of players multiplier
+     */
+    public static void sellInventory(Player player, double bonusMultiplier) {
         if (player == null) return;
+        GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(player);
+        double multiplier = gPlayer.getMultiplier(bonusMultiplier);
+
+        // Check if Economy is set.
         Economy econ = Main.getInstance().getEconomy();
         if (econ == null) {
             PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")

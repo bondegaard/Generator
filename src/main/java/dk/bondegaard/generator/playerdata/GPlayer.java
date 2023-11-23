@@ -36,7 +36,7 @@ public class GPlayer {
 
     private long exp = 0;
 
-    private double multiplier = 0.0;
+    private double multiplier = 1.0;
 
 
     // Constructor
@@ -115,7 +115,7 @@ public class GPlayer {
         if (!data.contains("prestige")) data.set("prestige", 0L);
         if (!data.contains("level")) data.set("level", 1L);
         if (!data.contains("exp")) data.set("exp", 0L);
-        if (!data.contains("multiplier")) data.set("multiplier", 0.0);
+        if (!data.contains("multiplier")) data.set("multiplier", 1.0);
     }
 
     private void loadPlayerStats() {
@@ -154,6 +154,25 @@ public class GPlayer {
                 Main.getInstance().getGeneratorHandler().getActiveGenerators().add(gen);
             }
         }
+    }
+
+    /**
+     * Get the multiplier that a player will recieve when selling drops
+     * @return Double multiplier (multiplier >= 1)
+     */
+    public double getMultiplier() {
+        return getMultiplier(0);
+    }
+
+    /**
+     * Get the multiplier that a player will recieve when selling drops
+     * @param bonusMultiplier Bonus multiplier to be added ontop of players multiplier
+     * @return Double multiplier (multiplier >= 1)
+     */
+    public double getMultiplier(double bonusMultiplier) {
+        if (this.multiplier+bonusMultiplier < 1)
+            return 1;
+        return this.multiplier+bonusMultiplier;
     }
 
     public void removeGenerator(Generator generator) {

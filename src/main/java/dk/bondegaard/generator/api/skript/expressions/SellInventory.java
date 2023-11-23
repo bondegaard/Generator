@@ -14,7 +14,7 @@ public class SellInventory extends Effect {
 
     @Override
     protected void execute(Event e) {
-        dk.bondegaard.generator.features.SellInventory.sellInventory(player.getSingle(e).getPlayer());
+        dk.bondegaard.generator.features.SellInventory.sellInventory(player.getSingle(e).getPlayer(), 0);
 
     }
 

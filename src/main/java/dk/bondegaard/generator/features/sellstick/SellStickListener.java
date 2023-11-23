@@ -43,8 +43,8 @@ public class SellStickListener implements Listener {
 
         Inventory inv = ((Chest) clickedBlock.getState()).getInventory();
         double sellStickMultiMulti = handler.getSellStickMulti(heldItem);
-        double playerMulti = gPlayer.getMultiplier();
-        double sellMulti = sellStickMultiMulti + playerMulti;
+        double sellMulti = gPlayer.getMultiplier(sellStickMultiMulti);
+
 
         if (sellMulti <=0 || sellMulti-1 > Double.MAX_VALUE) return;
 

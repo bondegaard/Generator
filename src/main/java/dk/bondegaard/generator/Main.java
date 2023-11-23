@@ -27,7 +27,6 @@ public final class Main extends JavaPlugin {
     @Getter
     private static Main instance;
 
-
     private GeneratorHandler generatorHandler;
 
     private Economy economy;

@@ -110,7 +110,7 @@ public class GeneratorAPI {
      * @param player The player that will be selling their inventory
      */
     public void sellInventory(Player player) {
-        SellInventory.sellInventory(player);
+        SellInventory.sellInventory(player, 0);
     }
 
     /**
