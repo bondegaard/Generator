@@ -5,6 +5,7 @@ import dk.bondegaard.generator.features.SellInventory;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
+import dk.bondegaard.generator.utils.NumUtils;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -61,7 +62,7 @@ public class SellStickListener implements Listener {
         if (amount > 0) {
             econ.depositPlayer(event.getPlayer(), amount);
             PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX+Lang.SELLSTICK_SELL_MESSAGE, "%amount%")
-                    .placeholderValues(String.valueOf(amount));
+                    .placeholderValues(NumUtils.formatNumber(amount));
 
             PlayerUtils.sendMessage(event.getPlayer(), sellMessage);
         } else {

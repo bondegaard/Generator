@@ -6,6 +6,7 @@ import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
+import dk.bondegaard.generator.utils.NumUtils;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -55,7 +56,7 @@ public class SellInventory {
         player.updateInventory();
         econ.depositPlayer(player, amount);
         PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX + Lang.SELL_SUCCESS, "%TOTAL%", "%MULTIPLIER%")
-                .placeholderValues(String.valueOf(amount), String.valueOf(multiplier));
+                .placeholderValues(NumUtils.formatNumber(amount), String.valueOf(multiplier));
         PlayerUtils.sendMessage(player, sellMessage);
     }
 

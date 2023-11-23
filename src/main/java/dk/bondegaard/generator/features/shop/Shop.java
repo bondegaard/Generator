@@ -7,6 +7,7 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
+import dk.bondegaard.generator.utils.NumUtils;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import dk.bondegaard.generator.utils.StringUtil;
@@ -52,7 +53,7 @@ public class Shop {
             List<String> lore = new ArrayList<>();
             for (String s:Lang.SHOP_ITEM_LORE) {
                 PlaceholderString loreMessage = new PlaceholderString(StringUtil.colorize(s), "%PRICE%", "%TYPE%")
-                        .placeholderValues(String.valueOf(price), generatorType.getName());
+                        .placeholderValues(NumUtils.formatNumber(price), generatorType.getName());
                 lore.add(loreMessage.parse());
             }
             itemMeta.setLore(lore);
