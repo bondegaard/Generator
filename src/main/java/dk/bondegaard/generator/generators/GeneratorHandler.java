@@ -194,4 +194,40 @@ public class GeneratorHandler {
             }
         });
     }
+
+    public void removeGeneratorType(GeneratorType generatorType) {
+        if (getGeneratorType(generatorType.getName()) == null) return;
+        Main.getInstance().getConfig().set("generators."+generatorType.getName(), null);
+        generatorTypes.remove(generatorType);
+        Main.getInstance().saveConfig();
+    }
+
+    public void addGeneratorType(GeneratorType generatorType) {
+        if (getGeneratorType(generatorType.getName()) != null) return;
+        generatorTypes.add(generatorType);
+        saveGeneratorType(generatorType);
+    }
+
+    public void saveGeneratorType(GeneratorType generatorType) {
+        ConfigurationSection config = Main.getInstance().getConfig().getConfigurationSection("generators");
+        config.set(generatorType.getName(), null);
+
+        if(!generatorType.getNextGeneratorName().isEmpty()) {
+            config.set(generatorType.getName() + ".next-generator", generatorType.getNextGeneratorName());
+            config.set(generatorType.getName() + ".upgrade-price", generatorType.getUpgradePrice());
+        }
+        ItemUtil.setConfigItem(generatorType.getName() + ".generator-item", config, generatorType.getGeneratorItem());
+
+
+        int i = 1;
+        for (GeneratorDropItem generatorDropItem: generatorType.getGeneratorDrops()) {
+            ItemUtil.setConfigItem(generatorType.getName()+".generator-drops."+i, config, generatorDropItem.getItem());
+            config.set(generatorType.getName()+".generator-drops."+i+".sell-price", generatorDropItem.getSellPrice());
+            i++;
+        }
+
+
+        Main.getInstance().saveConfig();
+        return;
+    }
 }

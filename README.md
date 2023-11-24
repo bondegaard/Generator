@@ -26,7 +26,7 @@ This plugin is not meant to be used alone and another spigot plugin or Skript-La
     <dependency>
         <groupId>com.github.bondegaard</groupId>
         <artifactId>Generator</artifactId>
-        <version>1.1.6</version>
+        <version>1.1.7</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -41,7 +41,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compileOnly 'com.github.bondegaard:Generator:1.1.6'
+    compileOnly 'com.github.bondegaard:Generator:1.1.7'
 }
 ```
 

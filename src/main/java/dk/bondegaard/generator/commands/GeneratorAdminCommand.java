@@ -10,16 +10,22 @@ import dev.triumphteam.cmd.core.suggestion.SuggestionKey;
 import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.features.sellstick.SellStickHandler;
 import dk.bondegaard.generator.features.shop.ShopHandler;
+import dk.bondegaard.generator.generators.GeneratorHandler;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Description(value = "Generator admin command")
@@ -77,5 +83,84 @@ public class GeneratorAdminCommand extends BaseCommand {
 
         PlayerUtils.sendMessage(player, recieveMessage);
         player.getInventory().addItem(generatorType.getGeneratorItem());
+    }
+
+
+    @SubCommand(value = "removegen", alias = {"removegenerator"})
+    public void removeGen(Player player, @Suggestion(value = "gens")  String genName) {
+
+        GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(genName);
+        // Check name of choosen generator
+        if (generatorType == null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.GEN_DOES_NOT_EXIST);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        Main.getInstance().getGeneratorHandler().removeGeneratorType(generatorType);
+
+        // Send Generator removed message
+        PlaceholderString addedMessage = new PlaceholderString(Lang.PREFIX + Lang.ADMIN_CMD_REMOVE_GEN, "%TYPE%")
+                .placeholderValues(generatorType.getName());
+        PlayerUtils.sendMessage(player, addedMessage);
+        return;
+    }
+
+    @SubCommand(value = "addgen", alias = {"addgenerator"})
+    public void addGen(Player player, List<String> args) {
+        if (args.size() < 2) {
+            PlaceholderString missingArgsMessage = new PlaceholderString(Lang.PREFIX+Lang.ADMIN_CMD_ADD_GEN_MISSING_ARGS);
+            PlayerUtils.sendMessage(player, missingArgsMessage);
+            return;
+        }
+        String name = args.get(0);
+        double upgradePrice = 0;
+        String nextGen = args.size() > 2 ? args.get(2) : "";
+        try {
+            upgradePrice = Double.parseDouble(args.get(1));
+        } catch (NumberFormatException ex) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.STRING_IS_NOT_NUMBER);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        // Check name of next choosen generator
+        GeneratorType nextType;
+        if (!nextGen.equals("")) {
+            nextType = Main.getInstance().getGeneratorHandler().getGeneratorType(nextGen);
+            if (nextType == null) {
+                PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                        .placeholderValues(Lang.INVALID_NEXT_GEN_NAME);
+                PlayerUtils.sendMessage(player, errorMessage);
+              return;
+            }
+        }
+
+        // Check name of choosen generator
+        if (Main.getInstance().getGeneratorHandler().getGeneratorType(name) != null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.GEN_ALREADY_EXIST);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        ItemStack playerHeldItem = player.getItemInHand();
+        //Check player heldItem
+        if (playerHeldItem == null || playerHeldItem.getType() == Material.AIR) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.ADMIN_CMD_ADD_GEN_HOLD_GEN);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        GeneratorType generatorType = new GeneratorType(name, playerHeldItem, new ArrayList<>(), nextGen, upgradePrice);
+        Main.getInstance().getGeneratorHandler().addGeneratorType(generatorType);
+
+        // Send Generator added message
+        PlaceholderString addedMessage = new PlaceholderString(Lang.PREFIX + Lang.ADMIN_CMD_ADD_GEN, "%TYPE%")
+                .placeholderValues(generatorType.getName());
+        PlayerUtils.sendMessage(player, addedMessage);
     }
 }
