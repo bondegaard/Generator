@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 @RequiredArgsConstructor @Getter
 public class GeneratorDropItem {
 
+    private final String id;
+
     private final ItemStack item;
 
     private final double sellPrice;

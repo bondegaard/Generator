@@ -30,10 +30,14 @@ public class Lang {
     public static String CMD_CONSOLE_ONLY;
     public static String CMD_PLAYER_ONLY;
     public static String ADMIN_CMD_ADD_GEN;
+    public static String ADMIN_CMD_ADD_GENDROP;
     public static String ADMIN_CMD_REMOVE_GEN;
+
+    public static String ADMIN_CMD_REMOVE_GENDROP;
     public static String ADMIN_CMD_ADD_GEN_MISSING_ARGS;
     public static String ADMIN_CMD_ADD_GEN_HOLD_GEN;
-    public static String ADMIN_CMD_ADDED;
+    public static String ADMIN_CMD_ADD_GENDROP_MISSING_ARGS;
+    public static String ADMIN_CMD_ADD_GENDROP_HOLD_GENDROP;
 
     // Generator messages
     public static String GENS_MAX;
@@ -68,6 +72,7 @@ public class Lang {
     public static String INVALID_NEXT_GEN_NAME;
     public static String GEN_ALREADY_EXIST;
     public static String GEN_DOES_NOT_EXIST;
+    public static String GENDROP_DOES_NOT_EXIST;
 
     // Placeholders
     public static String NOT_LOADED;
@@ -105,10 +110,13 @@ public class Lang {
         CMD_CONSOLE_ONLY = getString(lang, "cmd-console-only", "&7Kommandoen kan kun blive brugt af console.");
         CMD_PLAYER_ONLY = getString(lang, "cmd-player-only", "&7Kommandoen kan kun blive brugt af spillere.");
         ADMIN_CMD_ADD_GEN = getString(lang, "admin-cmd-add-gen", "&7Du har tilføjet generatoren %TYPE%.");
+        ADMIN_CMD_ADD_GENDROP = getString(lang, "admin-cmd-add-gendrp[", "&7Du har tilføjet et generatoren drop til generatoren: %TYPE%.");
         ADMIN_CMD_REMOVE_GEN = getString(lang, "admin-cmd-remove-gen", "&7Du har fjernet generatoren %TYPE%.");
-        ADMIN_CMD_ADD_GEN_MISSING_ARGS = getString(lang, "admin-cmd-add-gen-missing-args", "&7Brug &c/gadmin addgen <name> <upgrade price> [next gen]");
+        ADMIN_CMD_REMOVE_GENDROP = getString(lang, "admin-cmd-remove-gendrop", "&7Du har fjernet et generator drop fra  generatoren %TYPE%.");
+        ADMIN_CMD_ADD_GEN_MISSING_ARGS = getString(lang, "admin-cmd-add-gen-missing-args", "&7Brug &c/gadmin addgen <navn> <upgrade pris> [næste gen]");
         ADMIN_CMD_ADD_GEN_HOLD_GEN = getString(lang, "admin-cmd-add-gen-hold_gen", "&7Du skal holde en block i hånden!");
-
+        ADMIN_CMD_ADD_GENDROP_MISSING_ARGS = getString(lang, "admin-cmd-add-gendrop-missing-args", "&7Brug &c/gadmin addgendrop <generator navn> <sell price>");
+        ADMIN_CMD_ADD_GENDROP_HOLD_GENDROP = getString(lang, "admin-cmd-add-gendrop-hold_gendrop", "&7Du skal holde et item i hånden!");
 
         // Generator messages
         GENS_MAX = getString(lang, "generator.max-placed-message", "Du kan ikke placere flere generators. (%PLACED%/%MAX%)");
@@ -145,6 +153,7 @@ public class Lang {
         INVALID_NEXT_GEN_NAME = getString(lang, "invalid-next-gen-name", "&cUgyldig generator navn valgt for næste generator!");
         GEN_ALREADY_EXIST = getString(lang, "gen_already_exist", "&cGenerator navn er allerede i brug!");
         GEN_DOES_NOT_EXIST = getString(lang, "gen_does_not_exist", "&cGenerator navn er findes ikke!");
+        GENDROP_DOES_NOT_EXIST = getString(lang, "gendrop_does_not_exist", "&cGenerator Drop er findes ikke!");
 
         // Placeholders
         NOT_LOADED = getString(lang, "not-loaded", "Not Loaded...!");

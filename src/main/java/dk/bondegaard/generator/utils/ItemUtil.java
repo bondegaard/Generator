@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+
 public class ItemUtil {
     public static ItemStack getConfigItem(String path, ConfigurationSection config) {
 
@@ -21,10 +23,10 @@ public class ItemUtil {
                     /* Data */ Short.parseShort(itemID[1])
             );
 
-            itemBuilder.name(StringUtil.colorize(section.getString("name")));
-            itemBuilder.addLore(StringUtil.colorize(section.getStringList("lore")));
+            itemBuilder.name(StringUtil.colorize((section.contains("name") ? section.getString("name") : "")));
+            itemBuilder.addLore(StringUtil.colorize((section.contains("lore") ?section.getStringList("lore") : new ArrayList<>())));
             itemBuilder.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
-            if (section.getBoolean("glowing")) itemBuilder.makeGlowing();
+            if (section.contains("glowing") && section.getBoolean("glowing")) itemBuilder.makeGlowing();
 
             return itemBuilder.build();
 

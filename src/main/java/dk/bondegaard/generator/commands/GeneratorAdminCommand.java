@@ -11,10 +11,12 @@ import dk.bondegaard.generator.Main;
 import dk.bondegaard.generator.features.sellstick.SellStickHandler;
 import dk.bondegaard.generator.features.shop.ShopHandler;
 import dk.bondegaard.generator.generators.GeneratorHandler;
+import dk.bondegaard.generator.generators.objects.GeneratorDropItem;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
+import dk.bondegaard.generator.utils.NumUtils;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import org.bukkit.Material;
@@ -47,16 +49,20 @@ public class GeneratorAdminCommand extends BaseCommand {
     public void execute(CommandSender sender) {
         PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin reload &fReload the plugin");
         PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin info &fGet information about the plugin.");
-        PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin getgenerator <navn> &fGet a generator!");
+        PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin getgenerator <name> &fGet a generator!");
+        PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin removegenerator <name> &fDelete/Remove a generator!");
+        PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin addgenerator <name> <upgrade price> [next gen] &fAdd/Create a generator!");
+        PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin addgendrop <generator name> <sell price> &fAdd a drop to a generator!");
+        PlayerUtils.sendMessage(sender, Lang.PREFIX + "&e/generatoradmin removegendrop <generator name> <generator drop id> &fRemove a drop from a generator!");
     }
 
     @SubCommand(value = "info", alias = {"information", "credit", "kredit"})
     public void info(CommandSender sender) {
         PlayerUtils.sendMessage(sender, "");
-        PlayerUtils.sendMessage(sender, "&aGenerator (" + Main.getInstance().getDescription().getVersion() + "):");
-        PlayerUtils.sendMessage(sender, "&aCredit: &bBondegaard");
-        PlayerUtils.sendMessage(sender, "&aVersion: &b" + Main.getInstance().getDescription().getVersion());
-        PlayerUtils.sendMessage(sender, "&aGithub: &bhttps://github.com/bondegaard/Generator");
+        PlayerUtils.sendMessage(sender, "&a&lGenerator &r&a(" + Main.getInstance().getDescription().getVersion() + "):");
+        PlayerUtils.sendMessage(sender, " &a* Credit: &bBondegaard");
+        PlayerUtils.sendMessage(sender, " &a* Version: &b" + Main.getInstance().getDescription().getVersion());
+        PlayerUtils.sendMessage(sender, " &a* Github: &bhttps://github.com/bondegaard/Generator");
     }
 
     @SubCommand(value = "reload")
@@ -85,6 +91,31 @@ public class GeneratorAdminCommand extends BaseCommand {
         player.getInventory().addItem(generatorType.getGeneratorItem());
     }
 
+    @SubCommand(value = "generatoreinfo", alias = {"geninfo", "generatorinformation", "geninformation"})
+    public void generatoreInformation(Player player, @Suggestion(value = "gens")  String genName) {
+        GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(genName);
+        // Check name of choosen generator
+        if (generatorType == null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.GEN_DOES_NOT_EXIST);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        PlayerUtils.sendMessage(player, " §c§lGenerator Information:");
+        PlayerUtils.sendMessage(player, " §4* §cName §8- §e" + generatorType.getName());
+        if (!(generatorType.getNextGeneratorName() == null || generatorType.getNextGeneratorName().isEmpty())) PlayerUtils.sendMessage(player, " §4* §cNext Gen §8- §e" + generatorType.getNextGeneratorName());
+        PlayerUtils.sendMessage(player, " §4* §cUpgrade Price §8- §e" + NumUtils.formatNumber(generatorType.getUpgradePrice())+"$");
+
+        if (generatorType.getGeneratorDrops().isEmpty()) return;
+        PlayerUtils.sendMessage(player, " §4* §cGenerator Drops:");
+        for (GeneratorDropItem generatorDropItem : generatorType.getGeneratorDrops()) {
+            PlayerUtils.sendMessage(player, " §4* | §cID §8- §e"+generatorDropItem.getId());
+            PlayerUtils.sendMessage(player, " §4* | §cSELL PRICE §8- §e"+generatorDropItem.getSellPrice());
+            PlayerUtils.sendMessage(player, " §4* | §cITEM TYPE §8- §e"+generatorDropItem.getItem().getType().name());
+            PlayerUtils.sendMessage(player, " §4* |");
+        }
+    }
 
     @SubCommand(value = "removegen", alias = {"removegenerator"})
     public void removeGen(Player player, @Suggestion(value = "gens")  String genName) {
@@ -107,16 +138,26 @@ public class GeneratorAdminCommand extends BaseCommand {
         return;
     }
 
+    /**
+     * Subcommand used to add a new type of generator
+     * @param player
+     * @param args
+     */
     @SubCommand(value = "addgen", alias = {"addgenerator"})
     public void addGen(Player player, List<String> args) {
+        // Check if player is using correct args
         if (args.size() < 2) {
             PlaceholderString missingArgsMessage = new PlaceholderString(Lang.PREFIX+Lang.ADMIN_CMD_ADD_GEN_MISSING_ARGS);
             PlayerUtils.sendMessage(player, missingArgsMessage);
             return;
         }
+
+        // Get player inputs
         String name = args.get(0);
         double upgradePrice = 0;
         String nextGen = args.size() > 2 ? args.get(2) : "";
+
+        // Parse upgradePrice to double
         try {
             upgradePrice = Double.parseDouble(args.get(1));
         } catch (NumberFormatException ex) {
@@ -162,5 +203,90 @@ public class GeneratorAdminCommand extends BaseCommand {
         PlaceholderString addedMessage = new PlaceholderString(Lang.PREFIX + Lang.ADMIN_CMD_ADD_GEN, "%TYPE%")
                 .placeholderValues(generatorType.getName());
         PlayerUtils.sendMessage(player, addedMessage);
+    }
+
+    /**
+     * Add a Generator drop to a Generator
+     * @param player
+     * @param args
+     */
+    @SubCommand(value = "addgendrop", alias = {"addgendrops", "addgeneratordrops"})
+    public void addGeneratorDrops(Player player, List<String> args) {
+        // Check if player is using correct args
+        if (args.size() < 2) {
+            PlaceholderString missingArgsMessage = new PlaceholderString(Lang.PREFIX+Lang.ADMIN_CMD_ADD_GENDROP_MISSING_ARGS);
+            PlayerUtils.sendMessage(player, missingArgsMessage);
+            return;
+        }
+
+        String genName = args.get(0);
+        double sellPrice;
+        ItemStack playerHeldItem = player.getItemInHand();
+
+        // Parse sellPrice to double
+        try {
+            sellPrice = Double.parseDouble(args.get(1));
+        } catch (NumberFormatException ex) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.STRING_IS_NOT_NUMBER);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        //Check player heldItem
+        if (playerHeldItem == null || playerHeldItem.getType() == Material.AIR) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.ADMIN_CMD_ADD_GENDROP_HOLD_GENDROP);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        // Check name of choosen generator
+        GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(genName);
+        if (generatorType == null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.GEN_DOES_NOT_EXIST);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        generatorType.addGeneratorDrop(sellPrice, playerHeldItem);
+
+        // Send Generator added message
+        PlaceholderString addedMessage = new PlaceholderString(Lang.PREFIX + Lang.ADMIN_CMD_ADD_GENDROP, "%TYPE%")
+                .placeholderValues(generatorType.getName());
+        PlayerUtils.sendMessage(player, addedMessage);
+    }
+
+    @SubCommand(value = "removegendrop", alias = {"removegendrops", "removegeneratordrops"})
+    public void removeGeneratorDrops(Player player, @Suggestion(value = "gens")  String genName, String genDropID) {
+        GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(genName);
+        // Check name of choosen generator
+        if (generatorType == null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.GEN_DOES_NOT_EXIST);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        GeneratorDropItem generatorDropItem = null;
+        for (GeneratorDropItem gd : generatorType.getGeneratorDrops()) {
+            if (!gd.getId().equalsIgnoreCase(genDropID)) continue;
+            generatorDropItem = gd;
+            break;
+        }
+
+        // Check name of choosen generator
+        if (generatorDropItem == null) {
+            PlaceholderString errorMessage = new PlaceholderString(Lang.PREFIX + Lang.ERROR, "%ERROR%")
+                    .placeholderValues(Lang.GENDROP_DOES_NOT_EXIST);
+            PlayerUtils.sendMessage(player, errorMessage);
+            return;
+        }
+
+        // Send Generator added message
+        PlaceholderString removeMessage = new PlaceholderString(Lang.PREFIX + Lang.ADMIN_CMD_REMOVE_GENDROP, "%TYPE%")
+                .placeholderValues(generatorType.getName());
+        PlayerUtils.sendMessage(player, removeMessage);
     }
 }

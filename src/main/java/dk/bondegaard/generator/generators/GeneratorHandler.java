@@ -78,7 +78,7 @@ public class GeneratorHandler {
                         Main.getInstance().getLogger().log(Level.WARNING, "Could not load GeneratorDrop Item generators." + key + ".generator-drops." + dropkey + ": Invalid item");
                         continue;
                     }
-                    itemDrops.add(new GeneratorDropItem(drop, sellPriceDrop));
+                    itemDrops.add(new GeneratorDropItem(dropkey, drop, sellPriceDrop));
                 }
             }
             double upgradePrice = generatorType.contains("upgrade-price") ? generatorType.getDouble("upgrade-price") : -1;
