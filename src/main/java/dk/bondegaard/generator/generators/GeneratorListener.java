@@ -6,6 +6,7 @@ import dk.bondegaard.generator.generators.objects.GeneratorType;
 import dk.bondegaard.generator.languages.Lang;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
+import dk.bondegaard.generator.utils.NumUtils;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import lombok.Getter;
@@ -96,7 +97,7 @@ public class GeneratorListener implements Listener {
             }
 
             // MAX GENERATOR
-            if (generator.getGeneratorType().getNextGeneratorName().equals("")) {
+            if (generator.getGeneratorType().getNextGeneratorName() == null || generator.getGeneratorType().getNextGeneratorName().isEmpty() || !Main.getInstance().getGeneratorHandler().hasGeneratorType(generator.getGeneratorType().getNextGeneratorName())) {
                 PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_UPGRADED_MAX);
                 return;
             }
@@ -112,7 +113,9 @@ public class GeneratorListener implements Listener {
             // Check player Balance
             double playerBalance = economy.getBalance(player);
             if (playerBalance < generator.getGeneratorType().getUpgradePrice()) {
-                PlayerUtils.sendMessage(player, Lang.PREFIX + Lang.GENS_UPGRADED_INVALID_FOUNDS.replace("%NEEDED%", "" + (generator.getGeneratorType().getUpgradePrice() - playerBalance)));
+                PlaceholderString invalidMessage = new PlaceholderString(Lang.PREFIX + Lang.GENS_UPGRADED_INVALID_FOUNDS, "%NEEDED%")
+                        .placeholderValues(NumUtils.formatNumber((generator.getGeneratorType().getUpgradePrice() - playerBalance)));
+                PlayerUtils.sendMessage(player, invalidMessage);
                 return;
             }
 
