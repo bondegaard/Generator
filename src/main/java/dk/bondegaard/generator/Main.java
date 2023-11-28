@@ -1,6 +1,7 @@
 package dk.bondegaard.generator;
 
 import dk.bondegaard.generator.api.GeneratorAPI;
+import dk.bondegaard.generator.bstats.Metrics;
 import dk.bondegaard.generator.commands.GeneratorAdminCommand;
 import dk.bondegaard.generator.commands.CommandWrapper;
 import dk.bondegaard.generator.commands.SellCommand;
@@ -37,6 +38,8 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         handleConfigVersion();
         instance = this;
+
+        new Metrics(instance, 20408);
 
         // Setup Economy
         if (!setupEconomy()) {
