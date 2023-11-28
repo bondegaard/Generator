@@ -1,5 +1,5 @@
 name: Generator
-version: '1.1.7'
+version: '1.1.8'
 main: dk.bondegaard.generator.Main
 authors: [Bondegaard]
 description: Generator plugin

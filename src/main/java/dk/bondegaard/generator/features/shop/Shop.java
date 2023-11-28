@@ -75,13 +75,13 @@ public class Shop {
                 double playerBalance = econ.getBalance(player);
                 if (playerBalance-price < 0) {
                     PlaceholderString shopFailMessage = new PlaceholderString(Lang.PREFIX + Lang.SHOP_BUY_FAIL, "%NEEDED%")
-                            .placeholderValues(String.valueOf((price- playerBalance)));
+                            .placeholderValues(NumUtils.formatNumber((price- playerBalance)));
                     PlayerUtils.sendMessage(player, shopFailMessage);
                     return;
                 }
                 econ.withdrawPlayer(player, price);
                 PlaceholderString shopSuccessMessage = new PlaceholderString(Lang.PREFIX + Lang.SHOP_BUY_SUCCESS, "%TYPE%", "%PRICE%")
-                        .placeholderValues(generatorType.getName(), String.valueOf(price));
+                        .placeholderValues(generatorType.getName(), NumUtils.formatNumber(price));
                 PlayerUtils.sendMessage(player, shopSuccessMessage);
                 Pickup.giveItem(player, generatorType.getGeneratorItem());
 
