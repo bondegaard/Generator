@@ -48,9 +48,6 @@ public class SellStickListener implements Listener {
         double sellStickMultiMulti = handler.getSellStickMulti(heldItem);
         double sellMulti = gPlayer.getMultiplier(sellStickMultiMulti);
 
-
-        if (sellMulti <=0 || sellMulti-1 > Double.MAX_VALUE) return;
-
         event.setCancelled(true);
         Economy econ = Main.getInstance().getEconomy();
         if (econ == null) {

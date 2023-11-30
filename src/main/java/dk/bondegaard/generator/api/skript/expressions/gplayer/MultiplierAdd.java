@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import dk.bondegaard.generator.playerdata.GPlayer;
 import dk.bondegaard.generator.playerdata.PlayerDataHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -18,7 +19,7 @@ public class MultiplierAdd extends Effect {
     @Override
     protected void execute(Event e) {
         GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(player.getSingle(e).getPlayer());
-        gPlayer.setMultiplier(gPlayer.getMultiplier()+value.getSingle(e).doubleValue());
+        gPlayer.addMultiplier(value.getSingle(e).doubleValue());
     }
 
     @Override

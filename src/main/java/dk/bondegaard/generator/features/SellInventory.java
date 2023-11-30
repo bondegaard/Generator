@@ -56,7 +56,7 @@ public class SellInventory {
         player.updateInventory();
         econ.depositPlayer(player, amount);
         PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX + Lang.SELL_SUCCESS, "%TOTAL%", "%MULTIPLIER%")
-                .placeholderValues(NumUtils.formatNumber(amount), String.valueOf(multiplier));
+                .placeholderValues(NumUtils.formatNumber(amount), NumUtils.formatNumber(multiplier));
         PlayerUtils.sendMessage(player, sellMessage);
     }
 

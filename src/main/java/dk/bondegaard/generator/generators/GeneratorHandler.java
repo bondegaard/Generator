@@ -1,10 +1,15 @@
 package dk.bondegaard.generator.generators;
 
 import dk.bondegaard.generator.Main;
+import dk.bondegaard.generator.features.Pickup;
 import dk.bondegaard.generator.generators.objects.Generator;
 import dk.bondegaard.generator.generators.objects.GeneratorDropItem;
 import dk.bondegaard.generator.generators.objects.GeneratorType;
+import dk.bondegaard.generator.languages.Lang;
+import dk.bondegaard.generator.playerdata.GPlayer;
+import dk.bondegaard.generator.playerdata.PlayerDataHandler;
 import dk.bondegaard.generator.utils.ItemUtil;
+import dk.bondegaard.generator.utils.PlayerUtils;
 import dk.bondegaard.generator.utils.Utils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -13,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -32,11 +38,13 @@ public class GeneratorHandler {
 
     public GeneratorHandler() {
         loadGeneratorTypes();
-        loop();
-
-        new GeneratorListener(this);
 
         loadGeneratorBlockData();
+
+        loop();
+        removeVoidGensLoop();
+
+        new GeneratorListener(this);
     }
 
     public void reload() {
@@ -103,6 +111,7 @@ public class GeneratorHandler {
     }
 
     public void addActiveGenerator(Generator generator) {
+        if (activeGenerators.contains(generator)) return;
         activeGenerators.add(generator);
     }
 
@@ -158,6 +167,28 @@ public class GeneratorHandler {
                 }
             }
         }, 10L, 10L);
+    }
+
+    private void removeVoidGensLoop() {
+        Bukkit.getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    boolean buggedGens = false;
+                    GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(player);
+                    if (gPlayer.getGenerators() == null) continue;
+                    for (Generator generator : gPlayer.getGenerators()) {
+                        if (generator == null) continue;
+                        if (generator.getLocation().getBlock().getType() != Material.AIR) continue;
+                        gPlayer.removeGenerator(generator);
+                        activeGenerators.remove(generator);
+                        Pickup.giveItem(player, generator.getGeneratorType().getGeneratorItem());
+                        buggedGens = true;
+                    }
+                    if (buggedGens) PlayerUtils.sendMessage(player, Lang.PREFIX+Lang.GEN_BUGGED_RETURNED);
+                }
+            }
+        }, 3000L, 3000L);
     }
 
 

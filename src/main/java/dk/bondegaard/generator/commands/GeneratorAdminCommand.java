@@ -20,6 +20,7 @@ import dk.bondegaard.generator.utils.NumUtils;
 import dk.bondegaard.generator.utils.PlaceholderString;
 import dk.bondegaard.generator.utils.PlayerUtils;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -74,6 +75,18 @@ public class GeneratorAdminCommand extends BaseCommand {
         ShopHandler.getInstance().load();
         Lang.reload();
         PlayerUtils.sendMessage(sender, Lang.PREFIX + "&eGenerator plugin reloaded!");
+    }
+
+    @SubCommand(value = "playerinfo")
+    public void playerInfo(Player player, Player target) {
+        if (!target.isOnline()) return;
+        GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(target);
+        PlayerUtils.sendMessage(player, " §c§lPlayer Information:");
+        PlayerUtils.sendMessage(player, " §4* §cName §8- §e" + target.getName());
+        PlayerUtils.sendMessage(player, " §4* §cMulti §8- §e" + gPlayer.getMultiplier());
+        PlayerUtils.sendMessage(player, " §4* §cPrestige §8- §e" + gPlayer.getPrestige());
+        PlayerUtils.sendMessage(player, " §4* §cLevel §8- §e" + gPlayer.getLevel());
+        PlayerUtils.sendMessage(player, " §4* §cExp §8- §e" + gPlayer.getExp());
     }
 
     @SubCommand(value = "getgenerator")

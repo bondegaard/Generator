@@ -12,6 +12,7 @@ import dk.bondegaard.generator.utils.PlayerUtils;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -133,7 +134,7 @@ public class GeneratorListener implements Listener {
             if (!event.getClickedBlock().hasMetadata("generator")) event.getClickedBlock().setMetadata("generator", new FixedMetadataValue(Main.getInstance(), player.getUniqueId().toString()));
 
             PlaceholderString genUpgradeMessage = new PlaceholderString(Lang.PREFIX + Lang.GENS_UPGRADED_SUCCESS, "%TYPE%")
-                    .placeholderValues(generator.getGeneratorType().getNextGeneratorName());
+                    .placeholderValues(generator.getGeneratorType().getName());
             PlayerUtils.sendMessage(player, genUpgradeMessage);
             return;
         }

@@ -36,6 +36,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        long startTime = System.currentTimeMillis();
+
         handleConfigVersion();
         instance = this;
 
@@ -67,6 +69,9 @@ public final class Main extends JavaPlugin {
         loadFeatures();
 
         loadCommands();
+
+        long endTime = System.currentTimeMillis();
+        getLogger().info("Generator spend "+(endTime-startTime)+"ms to load!");
     }
 
     private void loadFeatures() {

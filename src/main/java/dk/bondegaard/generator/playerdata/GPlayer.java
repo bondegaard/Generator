@@ -61,6 +61,10 @@ public class GPlayer {
         this.data = YamlConfiguration.loadConfiguration(dataFile);
         setDefaultValues(player, data);
         loadPlayerStats();
+
+        // Set Active Gens
+        generators.forEach(generator -> {if (generator != null)Main.getInstance().getGeneratorHandler().addActiveGenerator(generator);});
+
         return this;
     }
 
@@ -161,7 +165,7 @@ public class GPlayer {
      * @return Double multiplier (multiplier >= 1)
      */
     public double getMultiplier() {
-        return getMultiplier(0);
+        return getMultiplier(1);
     }
 
     /**
@@ -170,9 +174,10 @@ public class GPlayer {
      * @return Double multiplier (multiplier >= 1)
      */
     public double getMultiplier(double bonusMultiplier) {
-        if (this.multiplier+bonusMultiplier < 1)
+        double multi = this.multiplier*bonusMultiplier;
+        if (multi < 1 || multi-1 >= Integer.MAX_VALUE)
             return 1;
-        return this.multiplier+bonusMultiplier;
+        return multi;
     }
 
     public void removeGenerator(Generator generator) {
@@ -205,4 +210,7 @@ public class GPlayer {
     public void addExp(long exp) {this.exp+=exp;}
     public void removeExp() {this.exp--;}
     public void removeExp(long exp) {this.exp-=exp;}
+
+    public void addMultiplier(double multi) {this.multiplier+=multi;}
+    public void removeMultiplier(double multi) {this.multiplier-=multi;}
 }

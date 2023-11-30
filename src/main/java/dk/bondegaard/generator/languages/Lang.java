@@ -73,6 +73,7 @@ public class Lang {
     public static String GEN_ALREADY_EXIST;
     public static String GEN_DOES_NOT_EXIST;
     public static String GENDROP_DOES_NOT_EXIST;
+    public static String GEN_BUGGED_RETURNED;
 
     // Placeholders
     public static String NOT_LOADED;
@@ -159,6 +160,7 @@ public class Lang {
         GEN_ALREADY_EXIST = getString(lang, "gen_already_exist", "&cGeneratorens navn er allerede i brug!");
         GEN_DOES_NOT_EXIST = getString(lang, "gen_does_not_exist", "&cGeneratorens navn findes ikke!");
         GENDROP_DOES_NOT_EXIST = getString(lang, "gendrop_does_not_exist", "&cGeneratordrop findes ikke!");
+        GEN_BUGGED_RETURNED = getString(lang, "gen-bugged-returned", "&cDu havde en eller flere buggede generators som du har fået tilbage!");
 
         // Placeholders
         NOT_LOADED = getString(lang, "not-loaded", "Ikke indlæst...!");

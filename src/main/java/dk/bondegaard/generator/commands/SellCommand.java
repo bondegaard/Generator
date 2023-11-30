@@ -16,6 +16,6 @@ public class SellCommand extends BaseCommand {
 
     @Default
     public void execute(Player player) {
-        SellInventory.sellInventory(player, 0);
+        SellInventory.sellInventory(player, 1);
     }
 }
