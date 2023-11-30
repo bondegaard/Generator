@@ -95,6 +95,11 @@ public class Lang {
         }
 
         FileConfiguration lang = YamlConfiguration.loadConfiguration(dataFile);
+        lang.options()
+                .header("Use this file to change the lang of Generator.\n\n" +
+                        "Changes in this file requires a restart of the server\n" +
+                        "or the use of the command /gadmin reload for the changes to be shown on your server.\n")
+                .copyDefaults(true);
 
         // Default lang.yml
         PREFIX = getString(lang, "prefix", "&8[&b&lGenerator&8] &f");
@@ -104,42 +109,42 @@ public class Lang {
         // Command messages
         CMD_UNKNOWN_SUB_COMMAND = getString(lang, "cmd-unknown-sub-command", "&7Kommandoen &c/%FULL_COMMAND% &7findes ikke.");
         CMD_INVALID_ARGUMENT = getString(lang, "cmd-invalid-argument", "&7Ugyldigt argument, prøv et andet.");
-        CMD_NOT_ENOUGH_ARGS = getString(lang, "cmd-not-enough-args", "&7Kommandoen har for lidt argumenter.");
+        CMD_NOT_ENOUGH_ARGS = getString(lang, "cmd-not-enough-args", "&7Kommandoen har for få argumenter.");
         CMD_TOO_MANY_ARGS = getString(lang, "cmd-too-many-args", "&7Kommandoen har for mange argumenter.");
-        CMD_NO_PERMISSION = getString(lang, "cmd-no-permission", "&7Du har ikke adgang til at bruge Kommandoen.");
-        CMD_CONSOLE_ONLY = getString(lang, "cmd-console-only", "&7Kommandoen kan kun blive brugt af console.");
-        CMD_PLAYER_ONLY = getString(lang, "cmd-player-only", "&7Kommandoen kan kun blive brugt af spillere.");
+        CMD_NO_PERMISSION = getString(lang, "cmd-no-permission", "&7Du har ikke tilladelse til at bruge kommandoen.");
+        CMD_CONSOLE_ONLY = getString(lang, "cmd-console-only", "&7Kommandoen kan kun bruges af konsollen.");
+        CMD_PLAYER_ONLY = getString(lang, "cmd-player-only", "&7Kommandoen kan kun bruges af spillere.");
         ADMIN_CMD_ADD_GEN = getString(lang, "admin-cmd-add-gen", "&7Du har tilføjet generatoren %TYPE%.");
-        ADMIN_CMD_ADD_GENDROP = getString(lang, "admin-cmd-add-gendrp[", "&7Du har tilføjet et generatoren drop til generatoren: %TYPE%.");
+        ADMIN_CMD_ADD_GENDROP = getString(lang, "admin-cmd-add-gendrop", "&7Du har tilføjet et generatordrop til generatoren: %TYPE%.");
         ADMIN_CMD_REMOVE_GEN = getString(lang, "admin-cmd-remove-gen", "&7Du har fjernet generatoren %TYPE%.");
-        ADMIN_CMD_REMOVE_GENDROP = getString(lang, "admin-cmd-remove-gendrop", "&7Du har fjernet et generator drop fra  generatoren %TYPE%.");
-        ADMIN_CMD_ADD_GEN_MISSING_ARGS = getString(lang, "admin-cmd-add-gen-missing-args", "&7Brug &c/gadmin addgen <navn> <upgrade pris> [næste gen]");
-        ADMIN_CMD_ADD_GEN_HOLD_GEN = getString(lang, "admin-cmd-add-gen-hold_gen", "&7Du skal holde en block i hånden!");
-        ADMIN_CMD_ADD_GENDROP_MISSING_ARGS = getString(lang, "admin-cmd-add-gendrop-missing-args", "&7Brug &c/gadmin addgendrop <generator navn> <sell price>");
+        ADMIN_CMD_REMOVE_GENDROP = getString(lang, "admin-cmd-remove-gendrop", "&7Du har fjernet et generator drop fra generatoren %TYPE%.");
+        ADMIN_CMD_ADD_GEN_MISSING_ARGS = getString(lang, "admin-cmd-add-gen-missing-args", "&7Brug &c/gadmin addgen <navn> <opgraderingspris> [næste gen]");
+        ADMIN_CMD_ADD_GEN_HOLD_GEN = getString(lang, "admin-cmd-add-gen-hold_gen", "&7Du skal holde en blok i hånden!");
+        ADMIN_CMD_ADD_GENDROP_MISSING_ARGS = getString(lang, "admin-cmd-add-gendrop-missing-args", "&7Brug &c/gadmin addgendrop <generator navn> <sælgpris>");
         ADMIN_CMD_ADD_GENDROP_HOLD_GENDROP = getString(lang, "admin-cmd-add-gendrop-hold_gendrop", "&7Du skal holde et item i hånden!");
 
         // Generator messages
-        GENS_MAX = getString(lang, "generator.max-placed-message", "Du kan ikke placere flere generators. (%PLACED%/%MAX%)");
+        GENS_MAX = getString(lang, "generator.max-placed-message", "Du kan ikke placere flere generatorer. (%PLACED%/%MAX%)");
         GENS_PLACE = getString(lang, "generator.place-message", "Du placerede en %TYPE% generator. (%PLACED%/%MAX%)");
         GENS_UPGRADED_SUCCESS = getString(lang, "generator.upgrade-success-message", "Du har opgraderet din generator til %TYPE%");
-        GENS_UPGRADED_INVALID_FOUNDS = getString(lang, "generator.upgrade-invalid-founds", "Du mangler %NEEDED%$ for at upgrade din generator");
+        GENS_UPGRADED_INVALID_FOUNDS = getString(lang, "generator.upgrade-invalid-founds", "Du mangler %NEEDED%$ for at opgradere din generator");
         GENS_UPGRADED_MAX = getString(lang, "generator.upgrade-max", "Du kan ikke opgradere denne generator!");
-        GENS_UPGRADED_NO_UPGRADE = getString(lang, "generator.no-upgrade", "Denne generator kan ikke opgrades!");
+        GENS_UPGRADED_NO_UPGRADE = getString(lang, "generator.no-upgrade", "Denne generator kan ikke opgraderes!");
 
         GENS_REMOVED = getString(lang, "generator.remove-success", "Du har fjernet din generator");
         GENS_NOT_YOURS = getString(lang, "generator.wrong-owner", "Du ejer ikke denne generator");
 
-        GENS_RECEIVE = getString(lang, "generator.reveive", "Du modtag en %TYPE% generator!");
+        GENS_RECEIVE = getString(lang, "generator.receive", "Du modtog en %TYPE% generator!");
 
         // Sell
-        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din inventory for %TOTAL%$ (%MULTIPLIER%x)");
+        SELL_SUCCESS = getString(lang, "sell.sell-success", "Du solgte din beholdning for %TOTAL%$ (%MULTIPLIER%x)");
         SELL_FAIL = getString(lang, "sell.sell-fail", "Du har ikke noget at sælge!");
 
         // Shop
-        SHOP_GUI_TITLE = getString(lang, "shop.gui-title", "&b&lGenerator Shop");
+        SHOP_GUI_TITLE = getString(lang, "shop.gui-title", "&b&lGenerator Butik");
         SHOP_BUY_SUCCESS = getString(lang, "shop.buy-success", "Du købte en %TYPE% generator for %PRICE%$");
-        SHOP_BUY_FAIL = getString(lang, "shop.buy-fail", "Du mangler %NEEDED%$ købe denne generator!");
-        SHOP_FULL_INVENTORY = getString(lang, "shop.full-inventory", "Du har ikke nok plads i din inventory til dette!");
+        SHOP_BUY_FAIL = getString(lang, "shop.buy-fail", "Du mangler %NEEDED%$ for at købe denne generator!");
+        SHOP_FULL_INVENTORY = getString(lang, "shop.full-inventory", "Du har ikke nok plads i din beholdning til dette!");
         SHOP_ITEM_LORE = getStringList(lang, "shop.shop-item-lore", Arrays.asList("&bPris: &f%PRICE%$", "", "&b&nTryk for at købe!"));
 
         // Sell Stick
@@ -147,16 +152,17 @@ public class Lang {
         SELLSTICK_SELL_NOTHING = getString(lang, "sell-stick.empty-chest-message", "Der var ikke noget at sælge i kisten!");
 
         // Error
-        NO_ECONOMY = getString(lang, "no-economy-found", "Økonomi ikke opsat!");
+        NO_ECONOMY = getString(lang, "no-economy-found", "Økonomi ikke konfigureret!");
         STRING_IS_NOT_NUMBER = getString(lang, "string_is_not_number", "Ugyldigt tal.");
-        INVALID_GEN_NAME = getString(lang, "invalid-gen-name", "&cUgyldig generator navn!");
-        INVALID_NEXT_GEN_NAME = getString(lang, "invalid-next-gen-name", "&cUgyldig generator navn valgt for næste generator!");
-        GEN_ALREADY_EXIST = getString(lang, "gen_already_exist", "&cGenerator navn er allerede i brug!");
-        GEN_DOES_NOT_EXIST = getString(lang, "gen_does_not_exist", "&cGenerator navn er findes ikke!");
-        GENDROP_DOES_NOT_EXIST = getString(lang, "gendrop_does_not_exist", "&cGenerator Drop er findes ikke!");
+        INVALID_GEN_NAME = getString(lang, "invalid-gen-name", "&cUgyldigt generatornavn!");
+        INVALID_NEXT_GEN_NAME = getString(lang, "invalid-next-gen-name", "&cUgyldigt generatornavn valgt til næste generator!");
+        GEN_ALREADY_EXIST = getString(lang, "gen_already_exist", "&cGeneratorens navn er allerede i brug!");
+        GEN_DOES_NOT_EXIST = getString(lang, "gen_does_not_exist", "&cGeneratorens navn findes ikke!");
+        GENDROP_DOES_NOT_EXIST = getString(lang, "gendrop_does_not_exist", "&cGeneratordrop findes ikke!");
 
         // Placeholders
-        NOT_LOADED = getString(lang, "not-loaded", "Not Loaded...!");
+        NOT_LOADED = getString(lang, "not-loaded", "Ikke indlæst...!");
+
 
         try {
             lang.save(dataFile);

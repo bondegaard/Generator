@@ -22,6 +22,8 @@ public class GeneratorType {
 
     private final double upgradePrice;
 
+    private final long defaultTicksBetweenDrop;
+
     public void addGeneratorDrop(double sellPrice, ItemStack dropItem) {
         if (!Main.getInstance().getConfig().contains("generators."+name)) return;
         ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("generators."+name);

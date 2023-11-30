@@ -135,7 +135,7 @@ public class GPlayer {
                     Location loc = Utils.stringToLocation(gen.getString("location"));
                     GeneratorType generatorType = Main.getInstance().getGeneratorHandler().getGeneratorType(gen.getString("gen-name"));
                     if (generatorType == null) continue;
-                    long timeBetween = gen.contains("time-between-drop") ? gen.getLong("time-between-drop") : Main.getInstance().getConfig().getLong("time-inbetween");
+                    long timeBetween = gen.contains("time-between-drop") ? gen.getLong("time-between-drop") : generatorType.getDefaultTicksBetweenDrop();
                     long lastDrop = gen.contains("last-drop") ? gen.getLong("last-drop") : -1;
 
                     generators.add(new Generator(player.getUniqueId().toString(), loc, generatorType, timeBetween).setLastDrop(lastDrop != -1 ? lastDrop : System.currentTimeMillis()));

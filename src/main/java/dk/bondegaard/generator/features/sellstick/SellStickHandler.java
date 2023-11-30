@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SellStickHandler {
@@ -64,6 +65,15 @@ public class SellStickHandler {
         }
         new SellStickListener(this);
     }
+
+    public boolean isSellStick(ItemStack itemStack) {
+        for (ItemStack stick: sellStick.keySet()) {
+            if (stick.isSimilar(itemStack))
+                return true;
+        }
+        return false;
+    }
+
     public double getSellStickMulti(ItemStack itemStack) {
         for (Map.Entry<ItemStack, Double> stick: sellStick.entrySet()) {
             if (stick.getKey().isSimilar(itemStack))

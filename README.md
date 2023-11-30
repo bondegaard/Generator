@@ -5,6 +5,7 @@
 <div align="center">
     <h3 align="center">Generator</h3>
     <a href="https://github.com/bondegaard/Generator">Github</a>
+    <a href="https://www.spigotmc.org/resources/generator.113773/">Spigot</a>
 </div>
 
 ## Info
@@ -26,7 +27,7 @@ This plugin is not meant to be used alone and another spigot plugin or Skript-La
     <dependency>
         <groupId>com.github.bondegaard</groupId>
         <artifactId>Generator</artifactId>
-        <version>1.1.11</version>
+        <version>1.1.12</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -41,7 +42,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compileOnly 'com.github.bondegaard:Generator:1.1.11'
+    compileOnly 'com.github.bondegaard:Generator:1.1.12'
 }
 ```
 

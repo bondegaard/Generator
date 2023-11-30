@@ -83,8 +83,10 @@ public class GeneratorHandler {
             }
             double upgradePrice = generatorType.contains("upgrade-price") ? generatorType.getDouble("upgrade-price") : -1;
 
+            long defaultTimeBetweenDrops = generatorType.contains("time-between") ? generatorType.getLong("time-between") : (Main.getInstance().getConfig().contains("time-inbetween") ? Main.getInstance().getConfig().getLong("time-inbetween") : 5000L);
+
             // Save Generator Type
-            generatorTypes.add(new GeneratorType(key, generatorItem, itemDrops, nextGenerator, upgradePrice));
+            generatorTypes.add(new GeneratorType(key, generatorItem, itemDrops, nextGenerator, upgradePrice, defaultTimeBetweenDrops));
         }
     }
 

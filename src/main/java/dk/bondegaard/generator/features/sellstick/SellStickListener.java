@@ -37,9 +37,11 @@ public class SellStickListener implements Listener {
 
         ItemStack heldItem = event.getPlayer().getItemInHand();
         if (heldItem == null || heldItem.getType() == Material.AIR) return;
+        if (!handler.isSellStick(heldItem)) return;
 
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock == null || !(clickedBlock.getType() == Material.CHEST || clickedBlock.getType() == Material.TRAPPED_CHEST)) return;
+
         GPlayer gPlayer = PlayerDataHandler.getOrCreateGPlayer(event.getPlayer());
 
         Inventory inv = ((Chest) clickedBlock.getState()).getInventory();
@@ -61,8 +63,8 @@ public class SellStickListener implements Listener {
         double amount = SellInventory.sellInventory(inv, sellMulti);
         if (amount > 0) {
             econ.depositPlayer(event.getPlayer(), amount);
-            PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX+Lang.SELLSTICK_SELL_MESSAGE, "%amount%")
-                    .placeholderValues(NumUtils.formatNumber(amount));
+            PlaceholderString sellMessage = new PlaceholderString(Lang.PREFIX+Lang.SELLSTICK_SELL_MESSAGE, "%amount%", "%multiplier%")
+                    .placeholderValues(NumUtils.formatNumber(amount), NumUtils.formatNumber(sellMulti));
 
             PlayerUtils.sendMessage(event.getPlayer(), sellMessage);
         } else {

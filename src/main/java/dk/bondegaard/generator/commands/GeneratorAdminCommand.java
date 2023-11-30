@@ -62,6 +62,7 @@ public class GeneratorAdminCommand extends BaseCommand {
         PlayerUtils.sendMessage(sender, "&a&lGenerator &r&a(" + Main.getInstance().getDescription().getVersion() + "):");
         PlayerUtils.sendMessage(sender, " &a* Credit: &bBondegaard");
         PlayerUtils.sendMessage(sender, " &a* Version: &b" + Main.getInstance().getDescription().getVersion());
+        PlayerUtils.sendMessage(sender, " &a* Spigot: &bhttps://www.spigotmc.org/resources/generator.113773/");
         PlayerUtils.sendMessage(sender, " &a* Github: &bhttps://github.com/bondegaard/Generator");
     }
 
@@ -196,7 +197,9 @@ public class GeneratorAdminCommand extends BaseCommand {
             return;
         }
 
-        GeneratorType generatorType = new GeneratorType(name, playerHeldItem, new ArrayList<>(), nextGen, upgradePrice);
+        long timeBetween = Main.getInstance().getConfig().contains("time-inbetween") ? Main.getInstance().getConfig().getLong("time-inbetween") : 5000;
+
+        GeneratorType generatorType = new GeneratorType(name, playerHeldItem, new ArrayList<>(), nextGen, upgradePrice, timeBetween);
         Main.getInstance().getGeneratorHandler().addGeneratorType(generatorType);
 
         // Send Generator added message
