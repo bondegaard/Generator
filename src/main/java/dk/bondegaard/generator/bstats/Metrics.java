@@ -1,3 +1,6 @@
+/*
+ */
+
 package dk.bondegaard.generator.bstats;
 /*
  * This Metrics class was auto-generated and can be copied into your project if you are
